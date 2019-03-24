@@ -1,5 +1,7 @@
-<?php require 'includes/header.php'; ?>
-
+<?php 
+require_once 'includes/config.php'; 
+include TEMPLATE_FRONT.DS.'header.php'; 
+?>
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -16,8 +18,8 @@
           </div>
           <div class="col-md-7">
 
-            <form action="#" method="post">
-              
+            <form action="" method="post" name="contact">
+              <?php send_message(); ?>
               <div class="p-3 p-lg-5 border">
                 <div class="form-group row">
                   <div class="col-md-6">
@@ -50,7 +52,7 @@
                 </div>
                 <div class="form-group row">
                   <div class="col-lg-12">
-                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Send Message">
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Send Message">
                   </div>
                 </div>
               </div>
@@ -75,4 +77,5 @@
       </div>
     </div>
 
-    <?php require 'includes/footer.php'; ?>
+<?php 
+include TEMPLATE_FRONT.DS.'footer.php'; ?>

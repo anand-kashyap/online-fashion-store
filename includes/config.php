@@ -15,9 +15,13 @@ defined('TEMPLATE_BACK') ? null : define('TEMPLATE_BACK',  __DIR__. DS . "templa
 
 /*DB Info - production*/
 /*defined('DB_HOST') ? null : define('DB_HOST', "localhost"); 
-defined('DB_USER') ? null : define('DB_USER', "root"); 
-defined('DB_PASS') ? null : define('DB_PASS', ""); 
-defined('DB_NAME') ? null : define('DB_NAME', "online-fashion-store");*/ 
+
+defined('DB_USER') ? null : define('DB_USER', "id9043215_root"); 
+
+defined('DB_PASS') ? null : define('DB_PASS', "rooted"); 
+
+defined('DB_NAME') ? null : define('DB_NAME', "id9043215_online_fashion_store"); 
+*/ 
 
 /*DB Info - development*/
 defined('DB_HOST') ? null : define('DB_HOST', "localhost"); 

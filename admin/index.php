@@ -1,3 +1,4 @@
+<?php require '../includes/config.php'; ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
@@ -51,22 +52,14 @@
                     <!-- Logo -->
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
-                        <a href="index.php" class="logo">
+                        <a href="../index.php" class="logo">
                             <!-- Logo icon -->
-                            <b class="logo-icon">
-                                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                                <!-- Dark Logo icon -->
-                                <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo icon -->
-                                <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                            </b>
+                            <i class="mdi mdi-arrow-left-bold font-20 mr-1"></i>
+                            
                             <!--End Logo icon -->
                             <!-- Logo text -->
                             <span class="logo-text">
-                                <!-- dark Logo text -->
-                                <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo text -->
-                                <img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                               Back to Website
                             </span>
                         </a>
                     </div>
@@ -230,6 +223,9 @@
                 <!-- ============================================================== -->
                 <!-- Email campaign chart -->
                 <!-- ============================================================== -->
+                <div class="row">
+                    <h5><?php display_message(); ?></h5>
+                </div>
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">

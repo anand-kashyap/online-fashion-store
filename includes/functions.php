@@ -35,6 +35,22 @@ function fetch_array($result) //assoc
 	return mysqli_fetch_assoc($result);
 }
 
+function set_message($msg)
+{
+	if (!empty($msg)) {
+		$_SESSION['message'] = $msg;
+	} else{
+		$msg = '';
+	}
+}
+
+function display_message()
+{
+	if (isset($_SESSION['message'])) {
+		echo "{$_SESSION['message']}";
+		unset($_SESSION['message']);
+	}
+}
 
 /****************FRONT END FUNCTIONS*********************************/
 //dynamic menu
@@ -152,17 +168,61 @@ function site_dyn_cats()
 
 function login_user()
 {
+	
 	if (isset($_POST['submit'])) {
 		$username = escape_string($_POST['username']);
 		$userpass = escape_string($_POST['userpass']);
-
+		// die($username);
 		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
 		confirm($query);
 		if (mysqli_num_rows($query) == 0) {
+			set_message('username/password combination does not exist');
 			redirect('login.php');
 		} else {
+			// $username = strtolower($username);
+			// $username = ucfirst($username);
+			set_message("Welcome to admin panel {$username}");
 			redirect('admin');
 		}
+		
+	}
+}
+
+function send_message()
+{
+	
+	if (isset($_POST['submit'])) {
+		/*echo '<pre>';
+		print_r($_POST);
+		echo '</pre>';*/
+		$to = "anandkashyap60@gmail.com";
+		$name = $_POST['c_fname']." ".$_POST['c_lname'];
+		$email = $_POST['c_email'];
+		$subject = $_POST['c_subject'];
+		$message = $_POST['c_message'];
+
+		$headers = "From: {$name} {$email}";
+		$res = mail($to, $subject, $message, $headers);
+		if (!$res) {
+			echo "ERROR";
+		} else {
+			echo "SENT";
+		}
+		// redirect('contact.php');
+				
+		/*$username = escape_string($_POST['username']);
+		$userpass = escape_string($_POST['userpass']);
+		// die($username);
+		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
+		confirm($query);
+		if (mysqli_num_rows($query) == 0) {
+			set_message('username/password combination does not exist');
+		} else {
+			// $username = strtolower($username);
+			// $username = ucfirst($username);
+			set_message("Welcome to admin panel {$username}");
+			redirect('admin');
+		}*/
 		
 	}
 }
