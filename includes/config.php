@@ -23,11 +23,17 @@ defined('DB_PASS') ? null : define('DB_PASS', "rooted");
 defined('DB_NAME') ? null : define('DB_NAME', "id9043215_online_fashion_store"); 
 */ 
 
-/*DB Info - development*/
+/*DB Info - mac office development*/
 defined('DB_HOST') ? null : define('DB_HOST', "localhost"); 
 defined('DB_USER') ? null : define('DB_USER', "root"); 
+defined('DB_PASS') ? null : define('DB_PASS', "root"); 
+defined('DB_NAME') ? null : define('DB_NAME', "online-fashion-store");
+
+/*DB Info - home development*/
+/*defined('DB_HOST') ? null : define('DB_HOST', "localhost"); 
+defined('DB_USER') ? null : define('DB_USER', "root"); 
 defined('DB_PASS') ? null : define('DB_PASS', ""); 
-defined('DB_NAME') ? null : define('DB_NAME', "online-fashion-store"); 
+defined('DB_NAME') ? null : define('DB_NAME', "online-fashion-store"); */
 
 $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
