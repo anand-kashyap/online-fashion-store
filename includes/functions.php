@@ -1,7 +1,27 @@
 <?php 
+ require_once('functions/loginandregister.php');
+
+function compareStrings($s1, $s2) {
+	// PHP code to check if a string is 
+	// substring of other 
+	// $s1 = "geeksforgeeks"; 
+	// $s2 = "geeks"; 
+	if (strpos($s1, $s2) >= 0 && 
+		strpos($s1, $s2) < strlen($s1)) 
+		return true;
+	else
+		return false;
+}
 //helper functions
 function redirect($location){
-	header("Location: $location");
+	//FIXME
+	/*if (compareStrings($_SERVER['REQUEST_URI'], 'admin')) {
+		header("Location: ../$location");
+	} else {*/
+		// header("Location: $location"); //prod
+		// $location = '/online-fashion-store/'+$location;//dev mac
+		header("Location: $location"); //dev mac
+	// }
 }
 
 
@@ -51,6 +71,8 @@ function display_message()
 		unset($_SESSION['message']);
 	}
 }
+
+
 
 /****************FRONT END FUNCTIONS*********************************/
 //dynamic menu
@@ -163,28 +185,6 @@ function site_dyn_cats()
 	foreach ($parent_array as $pkey => $pval) {
 	echo '<li class="mb-1"><a href="category.php?id='.$pval["id"].'" class="d-flex"><span>'.$pval["label"].'</span> <span class="text-black ml-auto">(2,220)</span></a></li>';
 
-	}
-}
-
-function login_user()
-{
-	
-	if (isset($_POST['submit'])) {
-		$username = escape_string($_POST['username']);
-		$userpass = escape_string($_POST['userpass']);
-		// die($username);
-		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
-		confirm($query);
-		if (mysqli_num_rows($query) == 0) {
-			set_message('username/password combination does not exist');
-			redirect('login.php');
-		} else {
-			// $username = strtolower($username);
-			// $username = ucfirst($username);
-			set_message("Welcome to admin panel {$username}");
-			redirect('admin');
-		}
-		
 	}
 }
 

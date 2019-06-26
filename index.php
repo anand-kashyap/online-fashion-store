@@ -8,7 +8,7 @@ include TEMPLATE_FRONT.DS.'header.php';
         include TEMPLATE_FRONT.DS.'home_banner.php'; 
        ?>
     </div>
-
+  
     <div class="site-section site-section-sm site-blocks-1">
       <div class="container">
         <div class="row">

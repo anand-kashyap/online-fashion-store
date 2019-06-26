@@ -56,7 +56,7 @@ $product = query("SELECT * FROM products WHERE product_id=".escape_string($_GET[
             </div>
 
             </div>
-            <p><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+            <p><a href="cart.php?add=<?php echo $row['product_id'] ?>" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
 
           </div>
         </div>
