@@ -15,11 +15,20 @@ function setMessage($msg, $success = false)
 	}
 }
 
-function displayMessage()
+function displayMessage($check = false)
 {
 	if (isset($_SESSION['message'])) {
 		echo "{$_SESSION['message']}";
 		unset($_SESSION['message']);
+	}
+}
+
+function checkIfMessage()
+{
+	if (isset($_SESSION['message'])) {
+		return true;
+	}   else {
+		return false;
 	}
 }
 

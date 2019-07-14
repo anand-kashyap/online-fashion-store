@@ -2,6 +2,14 @@
 require_once 'includes/config.php'; 
 include TEMPLATE_FRONT.DS.'header.php'; 
 ?>
+  <?php if(checkIfMessage()) { ?>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <?php displayMessage(); ?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <?php } ?>
   <!-- BANNER HERE -->
     <div class="site-blocks-cover" style="background-image: url(images/hero_1.jpg);" data-aos="fade">
       <?php 

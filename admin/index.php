@@ -1,4 +1,6 @@
 <?php require '../includes/config.php'; ?>
+<?php checkLoggedInUser(true); ?>
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
@@ -219,14 +221,13 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <?php getLoggedInUser(true); ?>
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Email campaign chart -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <h5><?php displayMessage(); ?></h5>
-                </div>
+                <!-- <div class="row">
+                    <h5><?php /*displayMessage();*/ ?></h5>
+                </div> -->
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">

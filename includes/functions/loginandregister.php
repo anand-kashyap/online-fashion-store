@@ -12,11 +12,16 @@ function checkLoggedInUser($needAdmin = false) {
 	if (isset($_SESSION['user'])) {
 		if ($needAdmin && $_SESSION['user']['role'] != 'admin') {
 			setMessage('Need Admin account to access this page');
-			redirect('login.php');	
+			// die($_SESSION['message']);
+			redirect('../index.php');	
 		}
 	} else{
 		setMessage('Please login first');
-		redirect('login.php');
+		if ($needAdmin) {
+			redirect('../login.php');
+		} else {
+			redirect('login.php');
+		}
 	}
 }
 
