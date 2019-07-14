@@ -6,7 +6,11 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 		<div class="row">
 			<div class="col-md-12">
 				<h2 class="h3 mb-3 text-black text-center">Sign in to Your Account</h2>
-				<?php displayMessage(); ?>
+				<?php 
+				if (isLoggedIn()) {
+					redirect('index.php');
+				}
+				displayMessage(); ?>
 			</div>
 			<div class="col-md-6 offset-md-3">
 				<form action="" method="post">

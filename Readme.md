@@ -1,6 +1,6 @@
 --todo--
-signup
-role specify for admin/user in db and code
+signup --done
+role specify for admin/user in db and code --done
 user dashboard
 add products from admin + sales management
 add categories from admin
