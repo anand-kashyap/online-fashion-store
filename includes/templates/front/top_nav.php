@@ -17,8 +17,17 @@
 		<div class="col-6 col-md-4 order-3 order-md-3 text-right">
 			<div class="site-top-icons">
 				<ul>
-					<li><a href="login.php">Login</a></li>
-					<!-- <li><a href="#"><span class="icon icon-person"></span></a></li> -->
+					<?php if(isLoggedIn()) { ?>
+						<li id="user-icon" class="dropdown">
+							<a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="icon icon-person"><?php echo ucfirst(getLoggedInUser()['user_name']) ?></span></a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							    <a class="dropdown-item" href="#">My orders</a>
+							    <a class="text-danger dropdown-item" href="logout.php">Logout</a>
+							  </div>
+						</li>
+					<?php } else { ?>
+						<li><a href="login.php">Login</a></li>
+					<?php } ?>
 					<li><a href="#"><span class="icon icon-heart-o"></span></a></li>
 					<li>
 						<a href="cart.php" class="site-cart">
@@ -30,6 +39,5 @@
 				</ul>
 			</div> 
 		</div>
-
 	</div>
 </div>

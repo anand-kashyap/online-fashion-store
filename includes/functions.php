@@ -1,6 +1,28 @@
 <?php 
  require_once('functions/loginandregister.php');
 
+function setMessage($msg, $success = false)
+{
+	if (!empty($msg)) {
+		$textClass = 'text-danger';
+		if ($success) {
+		 $textClass = 'text-success';
+		}
+		$_SESSION['message'] = "<div class='$textClass container text-center'>$msg</div>";
+		// die($_SESSION['message']);
+	} else{
+		$msg = '';
+	}
+}
+
+function displayMessage()
+{
+	if (isset($_SESSION['message'])) {
+		echo "{$_SESSION['message']}";
+		unset($_SESSION['message']);
+	}
+}
+
 function compareStrings($s1, $s2) {
 	// PHP code to check if a string is 
 	// substring of other 
@@ -54,24 +76,6 @@ function fetch_array($result) //assoc
 {
 	return mysqli_fetch_assoc($result);
 }
-
-function set_message($msg)
-{
-	if (!empty($msg)) {
-		$_SESSION['message'] = $msg;
-	} else{
-		$msg = '';
-	}
-}
-
-function display_message()
-{
-	if (isset($_SESSION['message'])) {
-		echo "{$_SESSION['message']}";
-		unset($_SESSION['message']);
-	}
-}
-
 
 
 /****************FRONT END FUNCTIONS*********************************/

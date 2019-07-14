@@ -8,17 +8,33 @@ function setUserAsLoggedIn($userArr) {
 	}
 }
 
-function getLoggedInUser() {
+function checkLoggedInUser($needAdmin = false) {
 	if (isset($_SESSION['user'])) {
-		//FIXME
-		print_r($_SESSION['user']);
+		if ($needAdmin && $_SESSION['user']['role'] != 'admin') {
+			setMessage('Need Admin account to access this page');
+			redirect('login.php');	
+		}
 	} else{
-		set_message('Please login first');
+		setMessage('Please login first');
 		redirect('login.php');
 	}
 }
 
-function login_user() {
+function getLoggedInUser() {
+	if (isset($_SESSION['user'])) {
+		return $_SESSION['user'];
+	}	
+}
+
+function isLoggedIn() {
+	if (isset($_SESSION['user'])) {
+		return true;
+	} else {
+		return false;
+	}	
+}
+
+function loginUser() {
 	if (isset($_POST['submit'])) {
 		$username = escape_string($_POST['username']);
 		$userpass = escape_string($_POST['userpass']);
@@ -26,31 +42,34 @@ function login_user() {
 		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
 		confirm($query);
 		if (mysqli_num_rows($query) == 0) {
-			set_message('username/password combination does not exist');
+			setMessage('username/password combination does not exist');
 			redirect('login.php');
 		} else {
 			while ($row = fetch_array($query)) {
 				setUserAsLoggedIn($row);
+				if ($row['role'] == 'admin') {
+					setMessage("Welcome to admin panel $username");
+					redirect('admin');
+				} else {
+					redirect(HOME);
+				}
 			}
-			set_message("Welcome to admin panel {$username}");
-			redirect('admin');
 			// redirect('admin');
 		}
 		
 	}
 }
 
-function register_user() {
+function registerUser() {
 	if (isset($_POST['submit_register'])) {
 		$username = escape_string($_POST['username']);
 		$useremail = escape_string($_POST['useremail']);
 		$userpass = escape_string($_POST['userpass']);
-		// die($username);
-		// die($useremail);
-		// die($userpass);
 		$query = query("INSERT INTO `users` (`user_name`, `email`, `password`) VALUES ('{$username}', '{$useremail}', '{$userpass}')");
 		confirm($query);
-		
+		unset($_POST['submit_register']);
+		header("Location: signup.php");
+		setMessage('User created successfully!', true);
 	}
 }
 

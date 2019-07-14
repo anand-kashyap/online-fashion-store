@@ -114,7 +114,7 @@
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
+                                <a class=" text-danger dropdown-item" href="../logout.php"><i class="ti-email m-r-5 m-l-5"></i> Logout</a>
                             </div>
                         </li>
                         <!-- ============================================================== -->
@@ -219,13 +219,13 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <?php getLoggedInUser(); ?>
+            <?php getLoggedInUser(true); ?>
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Email campaign chart -->
                 <!-- ============================================================== -->
                 <div class="row">
-                    <h5><?php display_message(); ?></h5>
+                    <h5><?php displayMessage(); ?></h5>
                 </div>
                 <div class="row">
                     <div class="col-md-8">

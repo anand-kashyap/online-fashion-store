@@ -6,7 +6,7 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 		<div class="row">
 			<div class="col-md-12">
 				<h2 class="h3 mb-3 text-black text-center">Sign in to Your Account</h2>
-				<div class='text-danger container text-center'><?php display_message(); ?></div>
+				<?php displayMessage(); ?>
 			</div>
 			<div class="col-md-6 offset-md-3">
 				<form action="" method="post">
@@ -29,7 +29,7 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 							</div>
 						</div>
 						<!-- <div class="form-group row"></div> -->
-						<?php login_user(); ?>
+						<?php loginUser(); ?>
 					</div>
 				</form>
 			</div>
