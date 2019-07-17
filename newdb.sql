@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jun 27, 2019 at 07:05 AM
+-- Generation Time: Jul 17, 2019 at 06:47 AM
 -- Server version: 5.7.21
 -- PHP Version: 7.1.19
 
@@ -223,6 +223,7 @@ CREATE TABLE `sales` (
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
+  `role` varchar(100) NOT NULL DEFAULT 'user' COMMENT 'role of user',
   `user_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
@@ -232,9 +233,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `email`, `password`) VALUES
-(1, 'anand', 'anand@gmail.com', '1234'),
-(2, 'arun', 'arun@outlook.com', 'arun234');
+INSERT INTO `users` (`user_id`, `role`, `user_name`, `email`, `password`) VALUES
+(1, 'admin', 'anand', 'anand@gmail.com', '1234'),
+(2, 'user', 'arun', 'arun@outlook.com', 'arun234'),
+(10, 'user', 'test', 'test@abc.com', 'aesarer');
 
 --
 -- Indexes for dumped tables
@@ -386,4 +388,4 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
