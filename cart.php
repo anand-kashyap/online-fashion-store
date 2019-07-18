@@ -1,6 +1,18 @@
 <?php 
 require_once 'includes/config.php'; 
 include TEMPLATE_FRONT.DS.'header.php'; 
+
+if (isset($_GET['add'])) {
+  // unset($_SESSION['cart']);
+  $newProductId = escape_string($_GET['add']);
+  if (isset($_SESSION['cart'])) {
+    // $_SESSION['cart'][$newProductId] = $newProductId;
+    array_push($_SESSION['cart'], $newProductId);
+    // $_SESSION['cart'].push($newProductId);
+  } else {
+    $_SESSION['cart'] = [$newProductId];
+  }
+}
 ?>
 
     <div class="bg-light py-3">
@@ -28,22 +40,37 @@ include TEMPLATE_FRONT.DS.'header.php';
                   </tr>
                 </thead>
                 <tbody>
+<?php 
+  $prodIds = $_SESSION['cart'];
+  $whereCond = "";
+  foreach ($prodIds as $key => $prodId) {
+    $whereCond .= "product_id=$prodId";
+    // die($whereCond);
+    if ($key < count($prodIds)) {
+      $whereCond .= " OR ";
+    }
+  }
+  if ($whereCond !== "") {
+    $product = query("SELECT * FROM products WHERE $whereCond");
+    confirm($product);
+    while ($row = fetch_array($product)) { ?>
+
                   <tr>
                     <td class="product-thumbnail">
-                      <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
+                      <img src="images/<?php echo $row['product_image']; ?>" alt="Image" class="img-fluid">
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">Top Up T-Shirt</h2>
+                      <h2 class="h5 text-black"><?php echo $row['product_title']; ?></h2>
                     </td>
-                    <td>$49.00</td>
+                    <td><?php echo $row['product_price']; ?></td>
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                          <button class="btn btn-outline-primary js-btn-minus calc" type="button">-</button>
                         </div>
                         <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                          <button class="btn btn-outline-primary js-btn-plus calc" type="button">+</button>
                         </div>
                       </div>
 
@@ -51,30 +78,9 @@ include TEMPLATE_FRONT.DS.'header.php';
                     <td>$49.00</td>
                     <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
                   </tr>
-
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/cloth_2.jpg" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Polo Shirt</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
+<?php 
+    }
+  } ?>
                 </tbody>
               </table>
             </div>
@@ -140,6 +146,6 @@ include TEMPLATE_FRONT.DS.'header.php';
         </div>
       </div>
     </div>
-
-<?php 
+<script src="./js/user/cart.js"></script>
+<?php
 include TEMPLATE_FRONT.DS.'footer.php'; ?>

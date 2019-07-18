@@ -22,6 +22,8 @@ $page_title = 'Online Fashion Store &mdash; e-Commerce Website';
 
     <link rel="stylesheet" href="css/style.css">
     
+    <script src="js/jquery-3.3.1.min.js"></script>
+    
   </head>
   <body>
   
