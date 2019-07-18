@@ -13,71 +13,82 @@ if (isset($_GET['add'])) {
     $_SESSION['cart'] = [$newProductId];
   }
 }
+if (isset($_GET['remove'])) {
+  // unset($_SESSION['cart']);
+  $remProductId = escape_string($_GET['remove']);
+  if (isset($_SESSION['cart'])) {
+    // $_SESSION['cart'][$remProductId] = $remProductId;
+    $index = array_search($remProductId, $_SESSION['cart']);
+    array_splice($_SESSION['cart'], $index);
+    // print_r($_SESSION['cart']);
+    // $_SESSION['cart'].push($remProductId);
+  }
+}
 ?>
 
-    <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
-        </div>
-      </div>
+<div class="bg-light py-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
     </div>
+  </div>
+</div>
 
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-5">
-          <form class="col-md-12" method="post">
-            <div class="site-blocks-table">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
+<div class="site-section">
+  <div class="container">
+    <div class="row mb-5">
+      <form class="col-md-12" method="post">
+        <div class="site-blocks-table">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="product-thumbnail">Image</th>
+                <th class="product-name">Product</th>
+                <th class="product-price">Price</th>
+                <th class="product-quantity">Quantity</th>
+                <th class="product-total">Total</th>
+                <th class="product-remove">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
 <?php 
   $prodIds = $_SESSION['cart'];
-  $whereCond = "";
+  $whereCondArr = [];
   foreach ($prodIds as $key => $prodId) {
-    $whereCond .= "product_id=$prodId";
-    // die($whereCond);
-    if ($key < count($prodIds)) {
-      $whereCond .= " OR ";
-    }
+    $whereCondArr[] = "product_id=$prodId";
   }
-  if ($whereCond !== "") {
-    $product = query("SELECT * FROM products WHERE $whereCond");
+  // unset($_SESSION['cart']);
+  if (count($whereCondArr) > 0) {
+    // print_r($whereCondArr);
+    // echo join(" OR ", $whereCondArr);
+    // die();
+    $product = query("SELECT * FROM products WHERE ". join(" OR ", $whereCondArr));
     confirm($product);
     while ($row = fetch_array($product)) { ?>
 
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/<?php echo $row['product_image']; ?>" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black"><?php echo $row['product_title']; ?></h2>
-                    </td>
-                    <td><?php echo $row['product_price']; ?></td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus calc" type="button">-</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus calc" type="button">+</button>
-                        </div>
-                      </div>
+              <tr>
+                <td class="product-thumbnail">
+                  <img src="images/<?php echo $row['product_image']; ?>" alt="Image" class="img-fluid">
+                </td>
+                <td class="product-name">
+                  <h2 class="h5 text-black"><?php echo $row['product_title']; ?></h2>
+                </td>
+                <td><?php echo $row['product_price']; ?></td>
+                <td>
+                  <div class="input-group mb-3" style="max-width: 120px;">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-primary js-btn-minus calc" type="button">-</button>
+                    </div>
+                    <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-primary js-btn-plus calc" type="button">+</button>
+                    </div>
+                  </div>
 
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
+                </td>
+                <td class="sub-product-price"><?php echo $row['product_price']; ?></td>
+                <td class="delete-item" id="<?php echo $row['product_id']; ?>"><button type="button" class="btn btn-primary btn-sm">X</button></td>
+              </tr>
 <?php 
     }
   } ?>
@@ -131,7 +142,7 @@ if (isset($_GET['add'])) {
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">$<span id="total-price">0</span></strong>
                   </div>
                 </div>
 

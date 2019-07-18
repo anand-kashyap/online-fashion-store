@@ -1,18 +1,46 @@
 $( function() {
-	console.log("working");
+
+	calcTotal();
+	function calcTotal() {
+		let subPricesArr = $('.sub-product-price').map(function(){
+			return parseFloat($.trim($(this).text()));
+		}).get();
+		let prodprice = 0;
+		for (const i of subPricesArr) {
+			prodprice+=i;
+		}
+		$('#total-price').html(prodprice.toFixed(2));
+	}
+
 	$('.calc').on('click', function() {
-		console.log('total');
+		let inputValEl = '';
+		let inputVal = 0;
 		if ($(this).text() == '-') { //on decrease
-		let inputValEl = $(this).parent().next(); //input el
-		let inputVal = $(inputValEl).val() - 1;
-		let td = $(inputVal).parent().parent(); //td
-		let priceEl = $(td).prev().text();
-		let total = inputVal * priceEl;
-		let totalEl = $(td).next().html(total);
-		console.log(total);
+			inputValEl = $(this).parent().next(); //input el
+			if ($(inputValEl).val() < 2) {
+				$(inputValEl).html('1');
+				return;
+			}
+			inputVal = parseInt($(inputValEl).val()) - 1;
 
 		} else {
-
+			inputValEl = $(this).parent().prev(); //input el
+			
+			inputVal = parseInt($(inputValEl).val()) + 1;
 		}
+		let td = $(inputValEl).parent().parent(); //td
+		let priceEl = $(td).prev().text();
+		let total = inputVal * priceEl;
+		$(td).next().html(total.toFixed(2));
+		calcTotal();
 	});
+
+	$('.delete-item').on('click', function () {
+		let row = $(this).parent();
+		let prodId = $(this).attr('id');
+		document.location = 'cart.php?remove='+prodId;
+		$(row).remove();
+	});
+
+	
 });
