@@ -1,5 +1,6 @@
 <?php 
  require_once('functions/loginandregister.php');
+ require_once('functions/cart.php');
 
 function setMessage($msg, $success = false)
 {

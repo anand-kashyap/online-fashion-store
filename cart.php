@@ -2,28 +2,8 @@
 require_once 'includes/config.php'; 
 include TEMPLATE_FRONT.DS.'header.php'; 
 
-if (isset($_GET['add'])) {
-  // unset($_SESSION['cart']);
-  $newProductId = escape_string($_GET['add']);
-  if (isset($_SESSION['cart'])) {
-    // $_SESSION['cart'][$newProductId] = $newProductId;
-    array_push($_SESSION['cart'], $newProductId);
-    // $_SESSION['cart'].push($newProductId);
-  } else {
-    $_SESSION['cart'] = [$newProductId];
-  }
-}
-if (isset($_GET['remove'])) {
-  // unset($_SESSION['cart']);
-  $remProductId = escape_string($_GET['remove']);
-  if (isset($_SESSION['cart'])) {
-    // $_SESSION['cart'][$remProductId] = $remProductId;
-    $index = array_search($remProductId, $_SESSION['cart']);
-    array_splice($_SESSION['cart'], $index);
-    // print_r($_SESSION['cart']);
-    // $_SESSION['cart'].push($remProductId);
-  }
-}
+addToCart();
+removeFromCart();
 ?>
 
 <div class="bg-light py-3">
@@ -52,19 +32,8 @@ if (isset($_GET['remove'])) {
             </thead>
             <tbody>
 <?php 
-  $prodIds = $_SESSION['cart'];
-  $whereCondArr = [];
-  foreach ($prodIds as $key => $prodId) {
-    $whereCondArr[] = "product_id=$prodId";
-  }
-  // unset($_SESSION['cart']);
-  if (count($whereCondArr) > 0) {
-    // print_r($whereCondArr);
-    // echo join(" OR ", $whereCondArr);
-    // die();
-    $product = query("SELECT * FROM products WHERE ". join(" OR ", $whereCondArr));
-    confirm($product);
-    while ($row = fetch_array($product)) { ?>
+if ($product = getCartProductsDetail()) {
+  while ($row = fetch_array($product)) { ?>
 
               <tr>
                 <td class="product-thumbnail">
@@ -90,8 +59,8 @@ if (isset($_GET['remove'])) {
                 <td class="delete-item" id="<?php echo $row['product_id']; ?>"><button type="button" class="btn btn-primary btn-sm">X</button></td>
               </tr>
 <?php 
-    }
-  } ?>
+  }
+} ?>
                 </tbody>
               </table>
             </div>
