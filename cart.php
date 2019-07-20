@@ -48,7 +48,7 @@ if ($product = getCartProductsDetail()) {
                     <div class="input-group-prepend">
                       <button class="btn btn-outline-primary js-btn-minus calc" type="button">-</button>
                     </div>
-                    <input type="text" disabled class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                    <input type="text" disabled class="form-control text-center" min="1" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                     <div class="input-group-append">
                       <button class="btn btn-outline-primary js-btn-plus calc" type="button">+</button>
                     </div>

@@ -12,13 +12,12 @@ $( function() {
 		$('#total-price').html(prodprice.toFixed(2));
 	}
 
-	$('.calc').on('click', function() {
+	$('.calc').on('click', function(e) {
 		let inputValEl = '';
 		let inputVal = 0;
 		if ($(this).text() == '-') { //on decrease
 			inputValEl = $(this).parent().next(); //input el
-			if ($(inputValEl).val() < 2) {
-				$(inputValEl).html('1');
+			if ($(inputValEl).val() == 1) {
 				return;
 			}
 			inputVal = parseInt($(inputValEl).val()) - 1;
