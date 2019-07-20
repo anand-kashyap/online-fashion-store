@@ -77,7 +77,7 @@ if ($product = getCartProductsDetail()) {
                 <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                 <label class="text-black h4" for="coupon">Coupon</label>
                 <p>Enter your coupon code if you have one.</p>
@@ -88,7 +88,7 @@ if ($product = getCartProductsDetail()) {
               <div class="col-md-4">
                 <button class="btn btn-primary btn-sm">Apply Coupon</button>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-6 pl-5">
             <div class="row justify-content-end">
@@ -103,7 +103,7 @@ if ($product = getCartProductsDetail()) {
                     <span class="text-black">Subtotal</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black" id="sub-total-price">$230.00</strong>
                   </div>
                 </div>
                 <div class="row mb-5">

@@ -9,6 +9,8 @@ $( function() {
 		for (const i of subPricesArr) {
 			prodprice+=i;
 		}
+		$('#sub-total-price').html(prodprice.toFixed(2));
+		prodprice+= 10;
 		$('#total-price').html(prodprice.toFixed(2));
 	}
 

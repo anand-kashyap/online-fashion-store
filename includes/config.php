@@ -36,6 +36,10 @@ defined('DB_USER') ? null : define('DB_USER', "root");
 defined('DB_PASS') ? null : define('DB_PASS', ""); 
 defined('DB_NAME') ? null : define('DB_NAME', "online-fashion-store");  */
 
+/* PAYPAL sandbox creds
+client id: AQwkB3vnaiCsJNby0JtkUy6Jx71JzOzkOEM11MOAgPkJqJMoPD7GtN5IpFzoqdKlOU7f2ZwJEydU-FkF
+client secret: EF2xfo02pGzrSBBIIvtwjiz8wtgu1TPAKC1scOgD46bSEICDpjZHanvQDU34WsBJ4OqrFpsqCMNPnSEA
+*/
 $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 require_once 'functions.php';

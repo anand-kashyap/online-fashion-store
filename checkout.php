@@ -1,6 +1,8 @@
 <?php 
 require_once 'includes/config.php'; 
 include TEMPLATE_FRONT.DS.'header.php'; 
+if ($product = getCartProductsDetail()) {
+  ?>
 ?>
     <div class="bg-light py-3">
       <div class="container">
@@ -15,7 +17,7 @@ include TEMPLATE_FRONT.DS.'header.php';
         <div class="row mb-5">
           <div class="col-md-12">
             <div class="border p-4 rounded" role="alert">
-              Returning customer? <a href="#">Click here</a> to login
+              Returning customer? <a href="login.php">Click here</a> to login
             </div>
           </div>
         </div>
@@ -158,7 +160,7 @@ include TEMPLATE_FRONT.DS.'header.php';
                         <input type="text" class="form-control" id="c_diff_state_country" name="c_diff_state_country">
                       </div>
                       <div class="col-md-6">
-                        <label for="c_diff_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
+                        <label for="c_diff_postal_zip" class="text-black">Postal / Zip code<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip">
                       </div>
                     </div>
@@ -188,7 +190,7 @@ include TEMPLATE_FRONT.DS.'header.php';
           </div>
           <div class="col-md-6">
 
-            <div class="row mb-5">
+            <!-- <div class="row mb-5">
               <div class="col-md-12">
                 <h2 class="h3 mb-3 text-black">Coupon Code</h2>
                 <div class="p-3 p-lg-5 border">
@@ -203,7 +205,7 @@ include TEMPLATE_FRONT.DS.'header.php';
 
                 </div>
               </div>
-            </div>
+            </div> -->
             
             <div class="row mb-5">
               <div class="col-md-12">
@@ -215,57 +217,58 @@ include TEMPLATE_FRONT.DS.'header.php';
                       <th>Total</th>
                     </thead>
                     <tbody>
+<?php while ($row = fetch_array($product)) { ?>
                       <tr>
-                        <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                        <td>$250.00</td>
+                        <td><span class="product-name"><?php echo $row['product_title']; ?></span><strong class="mx-2">x</strong> 1</td>
+                        <td>$<span class="sub-product-price"><?php echo $row['product_price']; ?></span></td>
                       </tr>
-                      <tr>
-                        <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                        <td>$100.00</td>
-                      </tr>
+<?php }?>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black">$350.00</td>
+                        <td class="text-black">$<span id="sub-total-price">0<span></td>
                       </tr>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                        <td class="text-black font-weight-bold"><strong>$<span id="total-price">0</span></strong></td>
                       </tr>
                     </tbody>
                   </table>
 
                   <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                    <div class="collapse" id="collapsebank">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="payment-method" id="direct-bank" value="direct-bank-transfer" checked>
+                      <label class="h6 form-check-label" for="direct-bank">
+                      Direct Bank Transfer
+                      </label>
                     </div>
                   </div>
 
                   <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="payment-method" id="paypal" value="paypal">
+                      <label class="h6 form-check-label" for="paypal">
+                        Paypal
+                      </label>
                     </div>
+                    <form id="paypal-submit" action="https://www.sandbox.paypal.com/cgi-bin/webscr"
+                      method="post" target="_top">
+                      <input type='hidden' name='business' value='anandkashyap60-facilitator@gmail.com'> 
+                      <input type='hidden' name='currency_code' value='USD'> 
+                      <input type="hidden" name="upload" value="1">
+                      <?php $product2 = getCartProductsDetail(); while ($row2 = fetch_array($product2)) { ?>
+                        <input type='hidden' name='item_name_<?php echo $row2['product_id'];?>' value='<?php echo $row2['product_title']?>'> 
+                        <input type='hidden' name='item_number_<?php echo $row2['product_id']?>' value='<?php echo $row2['product_id']?>'> 
+                        <input type='hidden' name='amount_<?php echo $row2['product_id']?>' value='<?php echo $row2['product_price']?>'> 
+                      <?php } ?>
+                      <input type='hidden' name='cancel_return' value='http://localhost:8888/online-fashion-store/cart.php'>
+                      <input type='hidden' name='return' value='http://localhost:8888/online-fashion-store/thankyou.php'>
+                      <input type="hidden" name="cmd" value="_cart"> 
+                    </form>
                   </div>
 
+
                   <div class="form-group">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.php'">Place Order</button>
+                    <button class="btn btn-primary btn-lg py-3 btn-block" id="place-order">Place Order</button>
                   </div>
 
                 </div>
@@ -277,6 +280,11 @@ include TEMPLATE_FRONT.DS.'header.php';
         <!-- </form> -->
       </div>
     </div>
-
+<script src='js/user/cart.js'></script>
+<script src='js/user/checkout.js'></script>
 <?php 
+}
+else {
+  redirect('/');
+}
 include TEMPLATE_FRONT.DS.'footer.php'; ?>

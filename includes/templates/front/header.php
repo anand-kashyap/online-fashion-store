@@ -7,7 +7,10 @@ $page_title = 'Online Fashion Store &mdash; e-Commerce Website';
     <title><?php echo $page_title; ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=AQwkB3vnaiCsJNby0JtkUy6Jx71JzOzkOEM11MOAgPkJqJMoPD7GtN5IpFzoqdKlOU7f2ZwJEydU-FkF">
+    </script>
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">  -->
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
