@@ -303,4 +303,9 @@
     </div>
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
+<!--chartis chart-->
+<script src="assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<!--This page JavaScript -->
+<script src="dist/js/pages/dashboards/dashboard1.js"></script>
 <?php require_once './templates/footer.php'; ?>

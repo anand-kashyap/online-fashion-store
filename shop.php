@@ -46,7 +46,7 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
             </div>
             <div class="row mb-5">
               <?php 
-              get_products(); ?>
+              getProducts(); ?>
 
             </div>
             <!-- pagination -->

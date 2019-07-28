@@ -12,16 +12,9 @@
             <!-- Logo -->
             <!-- ============================================================== -->
             <div class="navbar-brand">
-                <a href="../index.php" class="logo">
-                    <!-- Logo icon -->
-                    <i class="mdi mdi-arrow-left-bold font-20 mr-1"></i>
-                    
-                    <!--End Logo icon -->
-                    <!-- Logo text -->
-                    <span class="logo-text">
-                       Back to Website
-                    </span>
-                </a>
+                <span class="ml-3 text-primary">
+                    Admin Panel
+                </span>
             </div>
             <!-- ============================================================== -->
             <!-- End Logo -->

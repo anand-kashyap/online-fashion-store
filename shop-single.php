@@ -3,6 +3,9 @@ require_once 'includes/config.php';
 include TEMPLATE_FRONT.DS.'header.php'; 
 ?>
 <?php 
+if (!isset($_GET['id'])) {
+  redirect('shop.php');
+}
 $product = query("SELECT * FROM products WHERE product_id=".escape_string($_GET['id']));
   confirm($product);
   while ($row = fetch_array($product)) {

@@ -1,7 +1,7 @@
 --todo--
 signup --done
 role specify for admin/user in db and code --done
-checkout product and add to cart
+checkout product and add to cart --done
 add products from admin + sales management
 add categories from admin
 stock management and show in admin

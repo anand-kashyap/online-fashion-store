@@ -117,10 +117,13 @@ function custom_dyn_menu()
 }
 
 //get products
-function get_products()
+function getProducts($admin = false)
 {
 	$res = query("SELECT * FROM products");
 	confirm($res);
+	if ($admin == true) {
+		return $res;
+	}
 	while ($row = fetch_array($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
@@ -139,7 +142,34 @@ function get_products()
 	}
 }
 
-function get_products_in_cat_page()
+function getCategories()
+{
+	$cats = query("SELECT * FROM categories");
+	confirm($cats);
+	return $cats;
+}
+
+function updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
+{
+	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_quantity=$qty, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname' WHERE product_id=".escape_string($_GET['id']));
+	confirm($product);
+}
+
+function addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
+{
+	$product = query("INSERT INTO products (product_title, product_price, product_quantity, product_short_desc, product_description, product_category_id, product_image) VALUES ('$title', $price, $qty, '$shortDesc', '$desc', $cat, '$fname')");
+	confirm($product);
+}
+
+function getProductById($id)
+{
+	$product = query("SELECT * FROM products WHERE product_id=".escape_string($id));
+	confirm($product);
+	$row = fetch_array($product);
+	return $row;
+}
+
+function getProductsInCat()
 {
 	$res = query("SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']));
 	confirm($res);
