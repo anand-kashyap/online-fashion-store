@@ -103,5 +103,6 @@ $cats = getCategories();
     <!-- End Right sidebar -->
     <!-- ============================================================== -->
 </div>
+<script src="dist/js/jquery.validate.min.js"></script>
 <script src="dist/js/product.js"></script>
 <?php require_once './templates/footer.php'; ?>
