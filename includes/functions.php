@@ -169,6 +169,12 @@ function getProductById($id)
 	return $row;
 }
 
+function deleteProductById($id)
+{
+	$product = query("DELETE FROM products WHERE product_id=".escape_string($id));
+	confirm($product);
+}
+
 function getProductsInCat()
 {
 	$res = query("SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']));

@@ -35,6 +35,13 @@ if (isset($_GET['id'])) {
     $pTitle = 'Edit';
     $row = getProductById($_GET['id']);
 }
+if (isset($_GET['delete'])) {
+    $dId = $_GET['delete'];
+    if (is_numeric($dId)) {
+     deleteProductById($dId);
+    }
+    redirect('products.php');
+}
 $cats = getCategories();
 ?>
 <div class="container-fluid">
