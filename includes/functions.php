@@ -33,13 +33,12 @@ function checkIfMessage()
 	}
 }
 
-function compareStrings($s1, $s2) {
+function compareStrings($str, $substr) {
 	// PHP code to check if a string is 
 	// substring of other 
 	// $s1 = "geeksforgeeks"; 
 	// $s2 = "geeks"; 
-	if (strpos($s1, $s2) >= 0 && 
-		strpos($s1, $s2) < strlen($s1)) 
+	if (strpos($str, $substr) !== false)
 		return true;
 	else
 		return false;
@@ -90,30 +89,25 @@ function fetch_array($result) //assoc
 
 /****************FRONT END FUNCTIONS*********************************/
 //dynamic menu
-function custom_dyn_menu()
-{
-	$main_array = get_cat_for_nav();
-	$parent_array = $main_array['parent_menu'];
-	$sub_array = $main_array['sub_menu'];
-	$menu = "";
-	foreach ($parent_array as $pkey => $pval) {
-
-		if (!empty($pval['count'])) {
-			$menu.='<li class="has-children">
-			<a href="category.php?id='.$pval["id"].'">'.$pval["label"].'</a>
-			<ul class="dropdown">';
-			$smenu = "";
-			foreach ($sub_array[$pkey] as $sobj) {
-				$smenu.='<li><a href="category.php?id='.$sobj['id'].'">'.$sobj['label'].'</a></li>';
+function custom_dyn_menu($category, $parent = 0)
+{	
+	$html = "";
+	$url = $_SERVER['REQUEST_URI'];
+	if (isset($category['parent_cats'][$parent])) {
+		foreach ($category['parent_cats'][$parent] as $cat_id) {
+			$href = "category.php?id=".$category['categories'][$cat_id]['id'];
+			$activeClass = compareStrings($url, $href) ? 'active' : '';
+			if (!isset($category['parent_cats'][$cat_id])) {
+				$html .= "<li class='$activeClass'><a href='$href'>". $category['categories'][$cat_id]['label']."</a></li>";
+			} else {
+				$html .= "<li class='has-children $activeClass'><a href='$href'>". $category['categories'][$cat_id]['label'] . "</a>";
+				$html .= "<ul class='dropdown'>";
+				$html .= custom_dyn_menu($category, $cat_id);
+				$html .= "</ul></li>";
 			}
-			$menu.=$smenu.'</ul></li>';
-		} else {
-			$menu.='<li><a href="category.php?id='.$pval["id"].'">'.$pval["label"].'</a></li>';
 		}
-
-
 	}
-	return $menu;
+	return $html;
 }
 
 //get products
@@ -200,30 +194,26 @@ function getProductsInCat()
 //categories for nav
 function get_cat_for_nav()
 {
-	$parent_menu = array();
-	$sub_menu = array();
+	// $parent_menu = array();
+	// $sub_menu = array();
 
-	$query = "SELECT * FROM categories ORDER BY parent_id, id ASC";
+	$query = "SELECT * FROM categories ORDER BY parent_id, label ASC";
 	$send_query = query($query);
 	confirm($send_query);
+	//create a multidimensional array to hold a list of category and parent category
+	$category = array(
+		'categories' => array(),
+		'parent_cats' => array()
+	);
 
-	while ($obj = fetch_obj($send_query)) {
-		if ($obj->parent_id == 0) {
-			$parent_menu[$obj->id]['id'] = $obj->id;
-			$parent_menu[$obj->id]['label'] = $obj->label;
-			$parent_menu[$obj->id]['link'] = $obj->link_url;
-		} else {
-			// $sub_menu[$obj->id]['parent'] = $obj->parent_id;
-			$sub_menu[$obj->parent_id][$obj->id]['id'] = $obj->id;
-			$sub_menu[$obj->parent_id][$obj->id]['label'] = $obj->label;
-			$sub_menu[$obj->parent_id][$obj->id]['link'] = $obj->link_url;
-			if (empty($parent_menu[$obj->parent_id]['count'])) {
-				$parent_menu[$obj->parent_id]['count'] = 0;
-			}
-			$parent_menu[$obj->parent_id]['count']++;
-		}
+	//build the array lists with data from the category table
+	while ($row = mysqli_fetch_assoc($send_query)) {
+		//creates entry into categories array with current category id ie. $categories['categories'][1]
+		$category['categories'][$row['id']] = $row;
+		//creates entry into parent_cats array. parent_cats array contains a list of all categories with children
+		$category['parent_cats'][$row['parent_id']][] = $row['id'];
 	}
-	return ['parent_menu' => $parent_menu, 'sub_menu' => $sub_menu];
+	return $category;
 }
 
 //sidebar with cats
