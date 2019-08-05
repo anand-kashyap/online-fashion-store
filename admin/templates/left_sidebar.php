@@ -21,6 +21,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="categories.php" aria-expanded="false">
+                        <i class="mdi mdi-border-all"></i>
+                        <span class="hide-menu">Categories</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-profile.php" aria-expanded="false">
                         <i class="mdi mdi-account-network"></i>
                         <span class="hide-menu">Profile</span>

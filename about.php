@@ -1,7 +1,10 @@
-<?php require 'includes/header.php'; ?>
+<?php 
+require_once 'includes/config.php'; 
+include TEMPLATE_FRONT.DS.'header.php';
+?>
 
     <div class="bg-light py-3">
-      <div class="container">
+      <div class ="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">About</strong></div>
         </div>
@@ -140,4 +143,6 @@
     </div>
 
     
-    <?php require 'includes/footer.php'; ?>
+    <?php 
+    include TEMPLATE_FRONT.DS.'footer.php';
+    ?>

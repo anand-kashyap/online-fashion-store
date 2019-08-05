@@ -136,9 +136,13 @@ function getProducts($admin = false)
 	}
 }
 
-function getCategories()
+function getCategories($admin = false, $parentId = 0)
 {
-	$cats = query("SELECT * FROM categories");
+	$sql = "SELECT * FROM categories";
+	if ($admin) {
+		$sql .= " WHERE parent_id=$parentId";
+	}
+	$cats = query($sql);
 	confirm($cats);
 	return $cats;
 }
@@ -219,10 +223,9 @@ function get_cat_for_nav()
 //sidebar with cats
 function site_dyn_cats()
 {
-	$main_array = get_cat_for_nav();
-	$parent_array = $main_array['parent_menu'];
-	$sub_array = $main_array['sub_menu'];
-	foreach ($parent_array as $pkey => $pval) {
+	$category = get_cat_for_nav();
+	$parent_array = $category['categories'];
+	foreach ($parent_array as $pval) {
 	echo '<li class="mb-1"><a href="category.php?id='.$pval["id"].'" class="d-flex"><span>'.$pval["label"].'</span> <span class="text-black ml-auto">(2,220)</span></a></li>';
 
 	}
