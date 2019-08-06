@@ -153,10 +153,22 @@ function updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
 	confirm($product);
 }
 
+function updateCat($title, $parentCat)
+{
+	$cat = query("UPDATE categories SET label='$title', parent_id=$parentCat WHERE id=".escape_string($_GET['id']));
+	confirm($cat);
+}
+
 function addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
 {
 	$product = query("INSERT INTO products (product_title, product_price, product_quantity, product_short_desc, product_description, product_category_id, product_image) VALUES ('$title', $price, $qty, '$shortDesc', '$desc', $cat, '$fname')");
 	confirm($product);
+}
+
+function addCat($title, $parentCat)
+{
+	$cat = query("INSERT INTO categories (label, parent_id) VALUES ('$title', $parentCat)");
+	confirm($cat);
 }
 
 function getProductById($id)
@@ -167,10 +179,24 @@ function getProductById($id)
 	return $row;
 }
 
+function getCatById($id)
+{
+	$cat = query("SELECT * FROM categories WHERE id=".escape_string($id));
+	confirm($cat);
+	$row = fetch_array($cat);
+	return $row;
+}
+
 function deleteProductById($id)
 {
 	$product = query("DELETE FROM products WHERE product_id=".escape_string($id));
 	confirm($product);
+}
+
+function deleteCatById($id)
+{
+	$cat = query("DELETE FROM categories WHERE id=".escape_string($id));
+	confirm($cat);
 }
 
 function getProductsInCat()
@@ -272,5 +298,25 @@ function send_message()
 
 
 /****************BACK END FUNCTIONS*********************************/
+//dynamic menu
+function dyn_menu_admin($category, $parent = 0)
+{	
+	$html = "";
+	if (isset($category['parent_cats'][$parent])) {
+		foreach ($category['parent_cats'][$parent] as $cat_id) {
+			$href = "category.php?id=".$category['categories'][$cat_id]['id'];
+			$dhref = "category.php?delete=".$category['categories'][$cat_id]['id'];
+			if (!isset($category['parent_cats'][$cat_id])) {
+				$html .= "<li>". $category['categories'][$cat_id]['label']." <a href='$href' class='label label-success label-rounded'>Edit</a> <a href='$dhref' class='label label-danger label-rounded'>Delete</a></li>";
+			} else {
+				$html .= "<li class='has-children' >". $category['categories'][$cat_id]['label'] . " <a href='$href' class='label label-success label-rounded'>Edit</a> <a href='$dhref' class='label label-danger label-rounded'>Delete</a>";
+				$html .= "<ul class='dropdown'>";
+				$html .= dyn_menu_admin($category, $cat_id);
+				$html .= "</ul></li>";
+			}
+		}
+	}
+	return $html;
+}
 
 ?>

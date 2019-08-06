@@ -5,7 +5,7 @@
 <?php 
     $edit = false;
     $pTitle = 'Add';
-if (isset($_POST) && isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
     // redirect('product.php?id='.$_POST['pId']); die();
     $title = $_POST['title'];
     $price = $_POST['price'];
