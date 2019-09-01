@@ -1,3 +1,8 @@
+<?php 
+require_once 'includes/config.php'; 
+include TEMPLATE_FRONT.DS.'header.php'; 
+?>
+<link rel="stylesheet" href="admin/dist/css/style.min.css">
 <!-- Container fluid  -->
 <!-- ============================================================== -->
 <div class="container-fluid">
@@ -7,10 +12,15 @@
     <!-- Row -->
     <div class="row">
         <!-- Column -->
+        <div class="col-sm-12">
+            <div class="col-sm-4 m-auto">
+                <p class="page-heading">My profile</p>
+            </div>
+        </div>
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <center class="m-t-30"> <img src="assets/images/users/5.jpg" class="rounded-circle" width="150" />
+                    <center class="m-t-30"> <img src="admin/assets/images/users/5.jpg" class="rounded-circle" width="150" />
                         <h4 class="card-title m-t-10">Hanna Gover</h4>
                         <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
                         <div class="row text-center justify-content-md-center">
@@ -109,3 +119,6 @@
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
+
+<?php 
+include TEMPLATE_FRONT.DS.'footer.php'; ?>
