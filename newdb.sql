@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 17, 2019 at 06:47 AM
+-- Generation Time: Sep 01, 2019 at 10:28 AM
 -- Server version: 5.7.21
 -- PHP Version: 7.1.19
 
@@ -68,10 +68,9 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`id`, `label`, `link_url`, `parent_id`) VALUES
 (1, 'Men', '#', 0),
 (2, 'Women', '#', 0),
-(3, 'T-shirts', '#', 1),
 (4, 'Trousers', '#', 1),
-(5, 'T-shirts', '#', 2),
-(6, 'Dresses', '#', 2);
+(6, 'Dresses', '#', 2),
+(8, 'test', '#', 0);
 
 -- --------------------------------------------------------
 
@@ -162,6 +161,7 @@ CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `product_title` varchar(255) NOT NULL,
   `product_category_id` int(11) NOT NULL,
+  `is_featured` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is it a Featured product?',
   `product_price` float NOT NULL,
   `product_quantity` int(11) NOT NULL,
   `product_short_desc` varchar(150) NOT NULL,
@@ -173,9 +173,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_title`, `product_category_id`, `product_price`, `product_quantity`, `product_short_desc`, `product_description`, `product_image`) VALUES
-(1, 'Product 1', 1, 15.99, 0, 'short lorem ipsum', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'cloth_1.jpg'),
-(2, 'Product 2', 2, 24.99, 0, 'short lorem ipsum for product 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'cloth_2.jpg');
+INSERT INTO `products` (`product_id`, `product_title`, `product_category_id`, `is_featured`, `product_price`, `product_quantity`, `product_short_desc`, `product_description`, `product_image`) VALUES
+(2, 'Polo Shirt', 2, 1, 49.99, 150, 'Stylish enough to turn around the heads', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'cloth_2.jpg'),
+(3, 'Tank Top', 1, 1, 50, 150, 'Finding perfect T-shirt', 'Finding perfect T-shirt description long', 'cloth_1.jpg'),
+(4, 'Corater Shoes', 1, 1, 30.56, 200, 'Finding perfect corater shoes', 'Finding perfect corater shoes long description', 'shoe_1.jpg'),
+(5, 'Pattern T-shirt', 1, 1, 60.85, 300, 'Attractive Pattern T-shirt ', 'Attractive Pattern T-shirt long description', 'cloth_3.jpg');
 
 -- --------------------------------------------------------
 
@@ -334,7 +336,7 @@ ALTER TABLE `branch_off`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -370,7 +372,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `purchase`
