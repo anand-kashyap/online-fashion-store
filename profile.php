@@ -4,19 +4,21 @@ include TEMPLATE_FRONT.DS.'header.php';
 ?>
 <link rel="stylesheet" href="admin/dist/css/style.min.css">
 <!-- Container fluid  -->
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Profile</strong></div>
+        </div>
+    </div>
+</div>
 <!-- ============================================================== -->
-<div class="container-fluid">
+<div class="container">
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <!-- Row -->
     <div class="row">
         <!-- Column -->
-        <div class="col-sm-12">
-            <div class="col-sm-4 m-auto">
-                <p class="page-heading">My profile</p>
-            </div>
-        </div>
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-body">
