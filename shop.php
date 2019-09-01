@@ -12,10 +12,13 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 
     <div class="site-section">
       <div class="container">
-
         <div class="row mb-5">
           <div class="col-md-9 order-2">
-
+            
+            <!-- Dropdowns in top-right -->
+            <?php
+            if (!isset($_GET['q'])) {
+            ?>
             <div class="row">
               <div class="col-md-12 mb-5">
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
@@ -44,12 +47,21 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
                 </div>
               </div>
             </div>
+            <?php } ?>
             <div class="row mb-5">
               <?php 
-              getProducts(); ?>
+              if (isset($_GET['q'])) {
+                searchProducts($_GET['q']);
+              } else {
+                getProducts();  
+              }
+               ?>
 
             </div>
             <!-- pagination -->
+            <?php
+            if (!isset($_GET['q'])) {
+            ?>
             <div class="row" data-aos="fade-up">
               <div class="col-md-12 text-center">
                 <div class="site-block-27">
@@ -65,6 +77,7 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
                 </div>
               </div>
             </div>
+            <?php } ?>
           </div>
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">

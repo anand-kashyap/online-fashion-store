@@ -35,7 +35,7 @@
             <a href="#" class="block-6">
               <img src="images/hero_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
               <h3 class="font-weight-light  mb-0">Finding Your Perfect Shoes</h3>
-              <p>Promo from  nuary 15 &mdash; 25, 2019</p>
+              <p>Promo from January 15 &mdash; 25, 2019</p>
             </a>
           </div>
           <div class="col-md-6 col-lg-3">

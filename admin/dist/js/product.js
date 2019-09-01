@@ -20,7 +20,7 @@ $( function() {
         number: true
       },
       category: "required",
-      pImage: "required",
+      oldPImage: "required",
       shortdesc: {
         required: true,
         minlength: 5
@@ -32,7 +32,7 @@ $( function() {
       price: "Please enter Product Price",
       qty: "Please enter Product Quantity",
       category: "Please enter Product Category",
-      pImage: "Please select Product Image",
+      oldPImage: "Please select Product Image",
       shortdesc: {
         required: "Please provide a Short Description",
         minlength: "Short Description must be at least 5 characters long"

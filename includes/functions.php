@@ -136,6 +136,34 @@ function getProducts($admin = false)
 	}
 }
 
+//get products
+function searchProducts($searchTerm)
+{
+	$searchTerm = filter_var($searchTerm, FILTER_SANITIZE_STRING);
+	$res = query("SELECT * FROM products WHERE product_title LIKE '%$searchTerm%' OR product_short_desc LIKE '%$searchTerm%'");
+	confirm($res);
+	$rowcount = mysqli_num_rows($res);
+	echo "<div class='col-sm-12'><p>$rowcount result(s) found for search: <strong>$searchTerm</strong></p></div>";
+	if ($rowcount > 0) {
+		while ($row = fetch_array($res)) {
+			$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+									<div class="block-4 text-center border">
+										<figure class="block-4-image">
+											<a href="shop-single.php?id='.$row['product_id'].'"><img src="images/'.$row['product_image'].'" alt="Image placeholder" class="img-fluid"></a>
+										</figure>
+										<div class="block-4-text p-4">
+											<h3><a href="shop-single.php?id='.$row['product_id'].'">'.$row['product_title'].'</a></h3>
+											<p class="mb-0">'.$row['product_short_desc'].'</p>
+											<p class="text-primary font-weight-bold">$'.$row['product_price'].'</p>
+											<p><a href="shop-single.php?id='.$row['product_id'].'" class="btn btn-primary btn-sm">View Details</a></p>
+										</div>
+									</div>
+								</div>';
+			echo $product;					
+		}
+	}
+}
+
 function getCategories($admin = false, $parentId = 0)
 {
 	$sql = "SELECT * FROM categories";
@@ -147,9 +175,19 @@ function getCategories($admin = false, $parentId = 0)
 	return $cats;
 }
 
-function updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
+function getFeaturedProducts()
 {
-	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_quantity=$qty, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname' WHERE product_id=".escape_string($_GET['id']));
+	$sql = "SELECT * FROM products";
+	$sql .= " WHERE is_featured=1";
+
+	$featuredProds = query($sql);
+	confirm($featuredProds);
+	return $featuredProds;
+}
+
+function updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured)
+{
+	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_quantity=$qty, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname', is_featured=$isFeatured WHERE product_id=".escape_string($_GET['id']));
 	confirm($product);
 }
 
@@ -159,9 +197,9 @@ function updateCat($title, $parentCat)
 	confirm($cat);
 }
 
-function addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname)
+function addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured)
 {
-	$product = query("INSERT INTO products (product_title, product_price, product_quantity, product_short_desc, product_description, product_category_id, product_image) VALUES ('$title', $price, $qty, '$shortDesc', '$desc', $cat, '$fname')");
+	$product = query("INSERT INTO products (product_title, product_price, product_quantity, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, $qty, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");
 	confirm($product);
 }
 

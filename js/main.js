@@ -198,3 +198,10 @@ jQuery(document).ready(function($) {
 	siteMagnificPopup();
 
 });
+
+$('#search-input').on('keyup', function(e) {
+	if(e.which == 13) {
+		let searchVal = $('#search-input').val();
+		window.location = 'shop.php?q='+searchVal;
+	}
+});
