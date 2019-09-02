@@ -21,8 +21,6 @@ removeFromCart();
   <div class="row mb-5">
     <form class="col-md-12" method="post">
       <div class="site-blocks-table">
-        <?php
-        if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) { ?>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -35,6 +33,8 @@ removeFromCart();
             </tr>
           </thead>
           <tbody>
+          <?php
+            if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) { ?>
             <?php
             if ($product = getCartProductsDetail()) {
               while ($row = fetch_array($product)) { ?>
@@ -64,12 +64,12 @@ removeFromCart();
                 </tr>
             <?php
               }
-            } ?>
+            } 
+          } else { ?>
+            <tr><td colspan="6">No product added to cart</td></tr>
+          <?php }?>
           </tbody>
         </table>
-        <?php } else {?>
-          <h5 class="text-primary text-center border border-primary p-4">No product added to cart</h5>
-        <?php } ?>
       </div>
     </form>
   </div>

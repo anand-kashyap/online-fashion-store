@@ -9,7 +9,7 @@ $( function() {
       sProd = sProd.value;
       pIds.push(sProd);
     }
-    $.post('thankyou.php', {pIds}).done((data) => {
+    $.post('thankyou.php', {pIds, paymentMethod}).done((data) => {
       console.log(data);
       if (paymentMethod === 'paypal') {
         let productNamesArr = $('.product-name').map(function(){

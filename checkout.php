@@ -211,7 +211,7 @@ if ($product = getCartProductsDetail()) {
 
                 <div class="border p-3 mb-3">
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment-method" id="direct-bank" value="direct-bank-transfer" checked>
+                    <input class="form-check-input" type="radio" name="payment-method" id="direct-bank" value="direct bank transfer" checked>
                     <label class="h6 form-check-label" for="direct-bank">
                       Direct Bank Transfer
                     </label>

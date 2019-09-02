@@ -30,7 +30,7 @@
 								<?php if (isAdmin()) { ?>
 									<a class="dropdown-item" href="admin">Admin panel</a>
 								<?php } else { ?>
-									<a class="dropdown-item" href="#">My orders</a>
+									<a class="dropdown-item" href="orders.php">My orders</a>
 									<a class="dropdown-item" href="profile.php">My Profile</a>
 								<?php } ?>
 							    <p class="text-danger dropdown-item" onclick="logout()">Logout</p>

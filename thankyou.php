@@ -1,7 +1,8 @@
 <?php 
     require_once 'includes/config.php'; 
     if (isset($_POST['pIds'])) {
-      addOrder($_POST['pIds']);
+      $pMethod = $_POST['paymentMethod'];
+      addOrder($_POST['pIds'], $pMethod);
       echo 'Order Placed';
       return;
     }

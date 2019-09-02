@@ -340,17 +340,24 @@ function send_message()
 	}
 }
 
-function addOrder($productIds)
+function addOrder($productIds, $pMethod)
 {
 	$cust_id = getLoggedInUser()['user_id'];
 	$valQuery = "";
 	foreach ($productIds as $pId) {
-		$valQuery .= " ($cust_id, $pId, 1)";
+		$valQuery .= " ($cust_id, $pId, 1, '$pMethod')";
 	}
-	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity) VALUES $valQuery");
+	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity, payment_method) VALUES $valQuery");
 	confirm($order);
 }
 
+function getMyOrders()
+{
+	$cust_id = getLoggedInUser()['user_id'];
+	$orders = query("SELECT ord.order_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id WHERE ord.cust_id=$cust_id");
+	confirm($orders);
+	return $orders;
+}
 
 /****************BACK END FUNCTIONS*********************************/
 //dynamic menu

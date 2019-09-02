@@ -35,7 +35,7 @@ function getCartProductsDetail() {
     
     $prodIds = $_SESSION['cart'];
     $whereCondArr = [];
-    foreach ($prodIds as $key => $prodId) {
+    foreach ($prodIds as $prodId) {
       $whereCondArr[] = "product_id=$prodId";
     }
     if (count($whereCondArr) > 0) {
