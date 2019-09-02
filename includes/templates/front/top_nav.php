@@ -27,8 +27,12 @@
 						<li id="user-icon" class="dropdown">
 							<a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="icon icon-person"><?php echo ucfirst(getLoggedInUser()['user_name']) ?></span></a>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-							    <a class="dropdown-item" href="#">My orders</a>
-							    <a class="dropdown-item" href="profile.php">My Profile</a>
+								<?php if (isAdmin()) { ?>
+									<a class="dropdown-item" href="admin">Admin panel</a>
+								<?php } else { ?>
+									<a class="dropdown-item" href="#">My orders</a>
+									<a class="dropdown-item" href="profile.php">My Profile</a>
+								<?php } ?>
 							    <a class="text-danger dropdown-item" href="logout.php">Logout</a>
 							  </div>
 						</li>

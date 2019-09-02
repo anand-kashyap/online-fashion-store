@@ -39,6 +39,14 @@ function isLoggedIn() {
 	}	
 }
 
+function isAdmin() {
+	if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') {
+		return true;
+	} else {
+		return false;
+	}	
+}
+
 function loginUser() {
 	if (isset($_POST['submit'])) {
 		$username = escape_string($_POST['username']);
