@@ -70,6 +70,12 @@ function confirm($result)
 	}
 }
 
+function getLastInsertedId()
+{
+	global $connection;
+	return mysqli_insert_id($connection);
+}
+
 function escape_string($string)
 {
 	global $connection;
@@ -332,6 +338,17 @@ function send_message()
 		}*/
 		
 	}
+}
+
+function addOrder($productIds)
+{
+	$cust_id = getLoggedInUser()['user_id'];
+	$valQuery = "";
+	foreach ($productIds as $pId) {
+		$valQuery .= " ($cust_id, $pId, 1)";
+	}
+	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity) VALUES $valQuery");
+	confirm($order);
 }
 
 

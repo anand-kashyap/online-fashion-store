@@ -10,8 +10,10 @@ $( function() {
 			prodprice+=i;
 		}
 		$('#sub-total-price').html(prodprice.toFixed(2));
-		prodprice+= 10;
-		$('#total-price').html(prodprice.toFixed(2));
+		if (prodprice > 0) {
+			prodprice+= 10;
+			$('#total-price').html(prodprice.toFixed(2));
+		}
 	}
 
 	$('.calc').on('click', function(e) {
