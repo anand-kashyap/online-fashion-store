@@ -52,7 +52,7 @@ function loginUser() {
 		$username = escape_string($_POST['username']);
 		$userpass = escape_string($_POST['userpass']);
 		// die($username);
-		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
+		$query = query("SELECT user_id, role, user_name, email FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
 		confirm($query);
 		if (mysqli_num_rows($query) == 0) {
 			setMessage('username/password combination does not exist');
@@ -61,7 +61,7 @@ function loginUser() {
 			while ($row = fetch_array($query)) {
 				setUserAsLoggedIn($row);
 				if ($row['role'] == 'admin') {
-					setMessage("Welcome to admin panel $username");
+					// setMessage("Welcome to admin panel $username");
 					redirect('admin');
 				} else {
 					redirect(HOME);
@@ -83,6 +83,31 @@ function registerUser() {
 		unset($_POST['submit_register']);
 		header("Location: signup.php");
 		setMessage('User created successfully!', true);
+	}
+}
+
+function getUserDetails() {
+	if ($user = getLoggedInUser()) {
+		$query = query("SELECT * FROM users WHERE user_id='".$user['user_id']."'");
+		confirm($query);
+			while ($row = fetch_array($query)) {
+				return $row;
+			}
+	}
+}
+
+function updateUser() {
+	if (isset($_POST['submit'])) {
+		$userId = $_POST['userId'];
+		$name = $_POST['name'];
+		$email = $_POST['email'];
+		$psw = $_POST['psw'];
+		$phone = $_POST['phone'];
+		$address = $_POST['address'];
+		$country = strtolower($_POST['country']);
+		$query = query("UPDATE users SET name='$name', email='$email', password='$psw', phone='$phone', address='$address', country='$country' WHERE user_id=".$userId);
+		confirm($query);
+		redirect('profile.php');
 	}
 }
 
