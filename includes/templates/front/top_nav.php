@@ -33,7 +33,7 @@
 									<a class="dropdown-item" href="#">My orders</a>
 									<a class="dropdown-item" href="profile.php">My Profile</a>
 								<?php } ?>
-							    <a class="text-danger dropdown-item" href="logout.php">Logout</a>
+							    <p class="text-danger dropdown-item" onclick="logout()">Logout</p>
 							  </div>
 						</li>
 					<?php } else { ?>
@@ -52,3 +52,9 @@
 		</div>
 	</div>
 </div>
+<script>
+function logout() {
+	localStorage.clear();
+	document.location = 'logout.php';
+}
+</script>

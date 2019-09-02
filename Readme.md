@@ -6,7 +6,8 @@ add products from admin --done
 add categories from admin -- done
 featured products -- done
 searching of products from frontend --done
-user profile -- profile
+user profile -- done
+add to cart; dynamic count -- done
 user orders
 product filters
 sales management
