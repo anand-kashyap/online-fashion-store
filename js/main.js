@@ -197,11 +197,33 @@ jQuery(document).ready(function($) {
 	};
 	siteMagnificPopup();
 
+	// get number of products if present
+	const cCount = localStorage.getItem('cartCount');
+	if (cCount && cCount > 0) {
+		$('#cart-count').removeClass('d-none').text(cCount);
+	}
+
+	$('#search-input').on('keyup', (e) => {
+		if(e.which == 13) {
+			let searchVal = $('#search-input').val();
+			window.location = 'shop.php?q='+searchVal;
+		}
+	});
+
+	$('#addProduct').on('click', () => {
+		const isSizeSel = $('input[name=size]:checked').length === 1;
+		if (isSizeSel) {
+			const selSize = $('input[name=size]:checked')[0].value;
+			const prodId = $('#productId').val();
+			$.get('cart.php', {addByajax: prodId}).done((numOfProds) => {
+				console.log(numOfProds);
+				localStorage.setItem('cartCount', numOfProds);
+				$('#cart-count').removeClass('d-none').text(numOfProds);
+				$('#cartMessage').text('Added to cart!').css('color', 'green');
+			});
+		} else {
+			$('#cartMessage').text('Please select a size first.').css('color', 'red');
+		}
+	});
 });
 
-$('#search-input').on('keyup', function(e) {
-	if(e.which == 13) {
-		let searchVal = $('#search-input').val();
-		window.location = 'shop.php?q='+searchVal;
-	}
-});

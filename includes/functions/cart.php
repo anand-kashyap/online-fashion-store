@@ -1,15 +1,20 @@
 <?php 
-function addToCart()
+function addToCart($ajax = false)
 {
+  $key = $ajax ? 'addByajax': 'add';
   // unset($_SESSION['cart']);
-  if (isset($_GET['add'])) {
-    $newProductId = escape_string($_GET['add']);
+  if (isset($_GET[$key])) {
+    $newProductId = escape_string($_GET[$key]);
     if (isset($_SESSION['cart'])) {
       array_push($_SESSION['cart'], $newProductId);
     } else {
       $_SESSION['cart'] = [$newProductId];
     }
-    header('Location: cart.php');
+    if (!$ajax) {
+      header('Location: cart.php');
+    } else {
+      return count($_SESSION['cart']);
+    }
   }
 }
 

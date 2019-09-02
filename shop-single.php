@@ -9,10 +9,6 @@ if (!isset($_GET['id'])) {
 $product = query("SELECT * FROM products WHERE product_id=".escape_string($_GET['id']));
   confirm($product);
   while ($row = fetch_array($product)) {
-    /*echo '<pre>';
-    print_r($row);
-    echo '</pre>';
-    die();*/
         
  ?>
     <div class="bg-light py-3">
@@ -35,18 +31,19 @@ $product = query("SELECT * FROM products WHERE product_id=".escape_string($_GET[
             <p><strong class="text-primary h4">$<?php echo $row['product_price'] ?></strong></p>
             <div class="mb-1 d-flex">
               <label for="option-sm" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
+                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" value="sm" name="size"></span> <span class="d-inline-block text-black">Small</span>
               </label>
               <label for="option-md" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
+                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" value="md" name="size"></span> <span class="d-inline-block text-black">Medium</span>
               </label>
               <label for="option-lg" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
+                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" value="lg" name="size"></span> <span class="d-inline-block text-black">Large</span>
               </label>
               <label for="option-xl" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
+                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" value="xl" name="size"></span> <span class="d-inline-block text-black"> Extra Large</span>
               </label>
             </div>
+            <p id="cartMessage"></p>
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 120px;">
               <div class="input-group-prepend">
@@ -59,7 +56,8 @@ $product = query("SELECT * FROM products WHERE product_id=".escape_string($_GET[
             </div>
 
             </div>
-            <p><a href="cart.php?add=<?php echo $row['product_id'] ?>" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+            <input id="productId" type="hidden" value="<?php echo $row['product_id'] ?>">
+            <p><button id="addProduct" class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
 
           </div>
         </div>

@@ -1,7 +1,10 @@
 <?php 
 require_once 'includes/config.php'; 
+if (isset($_GET['addByajax'])) {
+  echo addToCart(true);
+  return;
+}
 include TEMPLATE_FRONT.DS.'header.php'; 
-
 addToCart();
 removeFromCart();
 ?>

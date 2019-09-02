@@ -39,8 +39,10 @@ $( function() {
 	$('.delete-item').on('click', function () {
 		let row = $(this).parent();
 		let prodId = $(this).attr('id');
-		document.location = 'cart.php?remove='+prodId;
 		$(row).remove();
+		const pCount = $('.delete-item').length;
+		localStorage.setItem('cartCount', pCount);
+		document.location = 'cart.php?remove='+prodId;
 	});
 
 	

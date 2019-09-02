@@ -6,7 +6,7 @@ add products from admin --done
 add categories from admin -- done
 featured products -- done
 searching of products from frontend --done
-user profile
+user profile -- profile
 user orders
 product filters
 sales management
