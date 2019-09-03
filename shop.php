@@ -1,6 +1,30 @@
 <?php 
 require_once 'includes/config.php'; 
-include TEMPLATE_FRONT.DS.'header.php'; ?>
+include TEMPLATE_FRONT.DS.'header.php'; 
+
+// pagination
+$paginArr = paginatedResults('products', 1);
+$queryStr = $_SERVER['QUERY_STRING'];
+// sorting of products
+$orderBy = 'created'; $orderDir = 'DESC'; $sorted = 'Latest';
+if (isset($_GET['name'])) {
+  $orderBy = 'product_title'; $orderDir = escape_string($_GET['name']);
+  $sorted = 'Name, ';
+  if (strtolower($_GET['name']) == 'asc') {
+    $sorted .= 'A to Z';
+  } elseif (strtolower($_GET['name']) == 'desc') {
+    $sorted .= 'Z to A';
+  }
+} elseif (isset($_GET['price'])) {
+  $orderBy = 'product_price'; $orderDir = escape_string($_GET['price']);
+  $sorted = 'Price, ';
+  if (strtolower($_GET['price']) == 'asc') {
+    $sorted .= 'low to high';
+  } elseif (strtolower($_GET['price']) == 'desc') {
+    $sorted .= 'high to low';
+  }
+}
+?>
 
     <div class="bg-light py-3">
       <div class="container">
@@ -23,25 +47,15 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
               <div class="col-md-12 mb-5">
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
                 <div class="d-flex">
-                  <div class="dropdown mr-1 ml-md-auto">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Latest
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="#">Men</a>
-                      <a class="dropdown-item" href="#">Women</a>
-                      <a class="dropdown-item" href="#">Children</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
+                  <div class=" dropdown mr-1 ml-md-auto btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown"><?php echo $sorted;?></button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Relevance</a>
-                      <a class="dropdown-item" href="#">Name, A to Z</a>
-                      <a class="dropdown-item" href="#">Name, Z to A</a>
+                      <a class="dropdown-item" href="shop.php">Latest</a>
+                      <a class="dropdown-item" href="?name=asc">Name, A to Z</a>
+                      <a class="dropdown-item" href="?name=desc">Name, Z to A</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Price, low to high</a>
-                      <a class="dropdown-item" href="#">Price, high to low</a>
+                      <a class="dropdown-item" href="?price=asc">Price, low to high</a>
+                      <a class="dropdown-item" href="?price=desc">Price, high to low</a>
                     </div>
                   </div>
                 </div>
@@ -53,26 +67,62 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
               if (isset($_GET['q'])) {
                 searchProducts($_GET['q']);
               } else {
-                getProducts();  
+                getProducts(false, $orderBy, $orderDir, $paginArr['offset'], $paginArr['recordsPerPage']);  
               }
                ?>
 
             </div>
             <!-- pagination -->
             <?php
-            if (!isset($_GET['q'])) {
+            if (!isset($_GET['q']) && $paginArr['totalPages'] > 1) {
             ?>
             <div class="row" data-aos="fade-up">
               <div class="col-md-12 text-center">
                 <div class="site-block-27">
                   <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
+                    <?php 
+                    /* if (!empty($queryStr)) {
+                      parse_str($queryStr, $vars);
+                      unset($vars['page']);
+                      $queryStr = http_build_query($vars);
+                      $queryStr .= '&'; 
+                    } */
+                    parse_str($queryStr, $vars);
+                    $vars['page'] = 1;
+                    $queryStr = http_build_query($vars);
+                    if ($paginArr['pageNo'] > 1) { ?>
+                      <li><a href="<?php echo "?$queryStr}";?>">&lt;&lt;</a>
+                    <?php }?>
+                    <?php
+                    if ($paginArr['pageNo'] + 1 < $paginArr['totalPages']) {
+                      $pCount = $paginArr['pageNo'] + 1;
+                      $pStart = $paginArr['pageNo'] - 1;
+                      if ($pStart < 1) {
+                        $pStart = 1;
+                      }
+                    } else {
+                      $pStart = $paginArr['pageNo'] - 2;
+                      $pCount = $paginArr['totalPages'];
+                    }
+                    for ($i=$pStart; $i <= $pCount; $i++) { 
+                      $pNum = $i ;
+                      echo "<li";
+                      if ($pNum == $paginArr['pageNo']) {
+                        echo " class='active' ";
+                      }
+                      parse_str($queryStr, $vars);
+                      $vars['page'] = $pNum;
+                      $queryStr = http_build_query($vars);
+                      echo "><a href='?{$queryStr}'>$pNum</a></li>";
+                    }
+                    ?>
+                    <?php
+                    parse_str($queryStr, $vars);
+                    $vars['page'] = $paginArr['totalPages'];
+                    $queryStr = http_build_query($vars);
+                    if ($paginArr['pageNo'] < $paginArr['totalPages']) { ?>
+                    <li><a href="<?php echo "?{$queryStr}";?>">&gt;&gt;</a>
+                    <?php }?>
                   </ul>
                 </div>
               </div>

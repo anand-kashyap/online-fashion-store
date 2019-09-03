@@ -117,9 +117,13 @@ function custom_dyn_menu($category, $parent = 0)
 }
 
 //get products
-function getProducts($admin = false)
+function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10)
 {
-	$res = query("SELECT * FROM products");
+	$qStr = "SELECT * FROM products";
+	if (!$admin) {
+		$qStr .= " ORDER by $orderBy $orderDir LIMIT $offset, $recordsPerPage";
+	}
+	$res = query($qStr);
 	confirm($res);
 	if ($admin == true) {
 		return $res;
@@ -419,5 +423,21 @@ function addCust($cData)
 {
 	$product = query("INSERT INTO users (user_name, email, name, company, phone, address, country) VALUES "."('".implode("', '", $cData)."')");
 	confirm($product);
+}
+
+function paginatedResults($tableName, $recordsPerPage = 10)
+{
+	if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+		$pno = $_GET['page'];
+	} else {
+		$pno = 1;
+	}
+	$offset = ($pno-1) * $recordsPerPage; 
+	$total_pages_sql = "SELECT COUNT(*) FROM $tableName";
+	$result = query($total_pages_sql);
+	confirm($result);
+	$total_rows = mysqli_fetch_array($result)[0];
+	$totalPages = ceil($total_rows / $recordsPerPage);
+	return ['pageNo' => $pno, 'offset' => $offset, 'recordsPerPage' => $recordsPerPage, 'totalPages' => $totalPages];
 }
 ?>
