@@ -15,9 +15,21 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="orders.php" aria-expanded="false">
+                        <i class="mdi mdi-arrange-bring-forward"></i>
+                        <span class="hide-menu">Orders</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="products.php" aria-expanded="false">
                         <i class="mdi mdi-tshirt-crew"></i>
                         <span class="hide-menu">Products</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="customers.php" aria-expanded="false">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span class="hide-menu">Customers</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

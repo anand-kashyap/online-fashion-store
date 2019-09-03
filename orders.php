@@ -25,7 +25,7 @@ include TEMPLATE_FRONT . DS . 'header.php';
               <th class="order-id">Order ID</th>
               <th class="product-thumbnail">Product Image</th>
               <th class="product-name">Product Name</th>
-              <th class="product-price">Price</th>
+              <th class="product-price">Amount</th>
               <th class="product-quantity">Quantity</th>
               <th class="order-date">Order Date</th>
               <th class="payment-type">Payment</th>
@@ -45,7 +45,7 @@ include TEMPLATE_FRONT . DS . 'header.php';
                   <td class="product-name">
                     <h3 class="h6 text-black"><?php echo $row['product_title']; ?></h3>
                   </td>
-                  <td><?php echo $row['product_price']; ?></td>
+                  <td><?php echo $row['product_price'] * $row['quantity']; ?></td>
                   <td>
                   <?php echo $row['quantity']; ?>
                   </td>

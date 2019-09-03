@@ -8,7 +8,9 @@ featured products -- done
 searching of products from frontend --done
 user profile -- done
 add to cart; dynamic count -- done
-user orders
+user orders --done
+admin orders --done
+admin customers --done
 product filters
 sales management
 stock management and show in admin

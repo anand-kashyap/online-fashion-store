@@ -381,4 +381,43 @@ function dyn_menu_admin($category, $parent = 0)
 	return $html;
 }
 
+function getAllOrders()
+{
+	$orders = query("SELECT ord.order_id, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id ORDER BY ord.order_id");
+	confirm($orders);
+	return $orders;
+}
+
+function getCustomers()
+{
+	$res = query("SELECT user_id, email, name, phone, country FROM users WHERE role='user'");
+	confirm($res);
+	return $res;
+}
+
+function deleteCustById($id)
+{
+	$cust = query("DELETE FROM users WHERE user_id=".escape_string($id));
+	confirm($cust);
+}
+
+function getCustById($id)
+{
+	$cust = query("SELECT user_name, email, name, company, phone, address, country FROM users WHERE user_id=".escape_string($id));
+	confirm($cust);
+	$row = fetch_array($cust);
+	return $row;
+}
+
+function updateCust($cData)
+{
+	$cat = query("UPDATE users SET user_name='".$cData['user_name']."', email='".$cData['email']."', name='".$cData['name']."', company='".$cData['company']."', phone='".$cData['phone']."', address='".$cData['address']."', country='".$cData['country']."' WHERE user_id=".escape_string($_GET['id']));
+	confirm($cat);
+}
+
+function addCust($cData)
+{
+	$product = query("INSERT INTO users (user_name, email, name, company, phone, address, country) VALUES "."('".implode("', '", $cData)."')");
+	confirm($product);
+}
 ?>
