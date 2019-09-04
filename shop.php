@@ -4,26 +4,9 @@ include TEMPLATE_FRONT.DS.'header.php';
 
 // pagination
 $paginArr = paginatedResults('products', 1);
-$queryStr = $_SERVER['QUERY_STRING'];
 // sorting of products
-$orderBy = 'created'; $orderDir = 'DESC'; $sorted = 'Latest';
-if (isset($_GET['name'])) {
-  $orderBy = 'product_title'; $orderDir = escape_string($_GET['name']);
-  $sorted = 'Name, ';
-  if (strtolower($_GET['name']) == 'asc') {
-    $sorted .= 'A to Z';
-  } elseif (strtolower($_GET['name']) == 'desc') {
-    $sorted .= 'Z to A';
-  }
-} elseif (isset($_GET['price'])) {
-  $orderBy = 'product_price'; $orderDir = escape_string($_GET['price']);
-  $sorted = 'Price, ';
-  if (strtolower($_GET['price']) == 'asc') {
-    $sorted .= 'low to high';
-  } elseif (strtolower($_GET['price']) == 'desc') {
-    $sorted .= 'high to low';
-  }
-}
+$sortedProds = sortProds();
+$orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorted = $sortedProds['sorted'];
 ?>
 
     <div class="bg-light py-3">
@@ -81,17 +64,8 @@ if (isset($_GET['name'])) {
                 <div class="site-block-27">
                   <ul>
                     <?php 
-                    /* if (!empty($queryStr)) {
-                      parse_str($queryStr, $vars);
-                      unset($vars['page']);
-                      $queryStr = http_build_query($vars);
-                      $queryStr .= '&'; 
-                    } */
-                    parse_str($queryStr, $vars);
-                    $vars['page'] = 1;
-                    $queryStr = http_build_query($vars);
                     if ($paginArr['pageNo'] > 1) { ?>
-                      <li><a href="<?php echo "?$queryStr}";?>">&lt;&lt;</a>
+                      <li><a href="<?php echo "?".setPageNum(1);?>">&lt;&lt;</a>
                     <?php }?>
                     <?php
                     if ($paginArr['pageNo'] + 1 < $paginArr['totalPages']) {
@@ -100,8 +74,11 @@ if (isset($_GET['name'])) {
                       if ($pStart < 1) {
                         $pStart = 1;
                       }
+                      if ($pStart == 1) {
+                        $pCount = $pStart+2 < $paginArr['totalPages'] ? $pStart+2 : $paginArr['totalPages'];
+                      }
                     } else {
-                      $pStart = $paginArr['pageNo'] - 2;
+                      $pStart = $paginArr['pageNo'] - 1;
                       $pCount = $paginArr['totalPages'];
                     }
                     for ($i=$pStart; $i <= $pCount; $i++) { 
@@ -110,18 +87,12 @@ if (isset($_GET['name'])) {
                       if ($pNum == $paginArr['pageNo']) {
                         echo " class='active' ";
                       }
-                      parse_str($queryStr, $vars);
-                      $vars['page'] = $pNum;
-                      $queryStr = http_build_query($vars);
-                      echo "><a href='?{$queryStr}'>$pNum</a></li>";
+                      echo "><a href='?".setPageNum($pNum)."'>$pNum</a></li>";
                     }
                     ?>
                     <?php
-                    parse_str($queryStr, $vars);
-                    $vars['page'] = $paginArr['totalPages'];
-                    $queryStr = http_build_query($vars);
                     if ($paginArr['pageNo'] < $paginArr['totalPages']) { ?>
-                    <li><a href="<?php echo "?{$queryStr}";?>">&gt;&gt;</a>
+                    <li><a href="<?php echo "?".setPageNum($paginArr['totalPages']);?>">&gt;&gt;</a>
                     <?php }?>
                   </ul>
                 </div>

@@ -440,4 +440,35 @@ function paginatedResults($tableName, $recordsPerPage = 10)
 	$totalPages = ceil($total_rows / $recordsPerPage);
 	return ['pageNo' => $pno, 'offset' => $offset, 'recordsPerPage' => $recordsPerPage, 'totalPages' => $totalPages];
 }
+
+function setPageNum($page)
+{
+	$queryStr = $_SERVER['QUERY_STRING'];
+	parse_str($queryStr, $vars);
+	$vars['page'] = $page;
+	return http_build_query($vars);
+}
+
+function sortProds()
+{
+	$orderBy = 'created'; $orderDir = 'DESC'; $sorted = 'Latest';
+	if (isset($_GET['name'])) {
+		$orderBy = 'product_title'; $orderDir = escape_string($_GET['name']);
+		$sorted = 'Name, ';
+		if (strtolower($_GET['name']) == 'asc') {
+			$sorted .= 'A to Z';
+		} elseif (strtolower($_GET['name']) == 'desc') {
+			$sorted .= 'Z to A';
+		}
+	} elseif (isset($_GET['price'])) {
+		$orderBy = 'product_price'; $orderDir = escape_string($_GET['price']);
+		$sorted = 'Price, ';
+		if (strtolower($_GET['price']) == 'asc') {
+			$sorted .= 'low to high';
+		} elseif (strtolower($_GET['price']) == 'desc') {
+			$sorted .= 'high to low';
+		}
+	}
+	return ['orderBy' => $orderBy, 'orderDir' => $orderDir, 'sorted' => $sorted];
+}
 ?>
