@@ -7,6 +7,7 @@ $paginArr = paginatedResults('products', 1);
 // sorting of products
 $sortedProds = sortProds();
 $orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorted = $sortedProds['sorted'];
+$cPage = 'shop.php';
 ?>
 
     <div class="bg-light py-3">
@@ -25,26 +26,8 @@ $orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorte
             <!-- Dropdowns in top-right -->
             <?php
             if (!isset($_GET['q'])) {
-            ?>
-            <div class="row">
-              <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex">
-                  <div class=" dropdown mr-1 ml-md-auto btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown"><?php echo $sorted;?></button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="shop.php">Latest</a>
-                      <a class="dropdown-item" href="?name=asc">Name, A to Z</a>
-                      <a class="dropdown-item" href="?name=desc">Name, Z to A</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="?price=asc">Price, low to high</a>
-                      <a class="dropdown-item" href="?price=desc">Price, high to low</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <?php } ?>
+            require_once TEMPLATE_FRONT.DS.'sort_dropdown.php'; 
+            } ?>
             <div class="row mb-5">
               <?php 
               if (isset($_GET['q'])) {
@@ -57,48 +40,9 @@ $orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorte
             </div>
             <!-- pagination -->
             <?php
-            if (!isset($_GET['q']) && $paginArr['totalPages'] > 1) {
-            ?>
-            <div class="row" data-aos="fade-up">
-              <div class="col-md-12 text-center">
-                <div class="site-block-27">
-                  <ul>
-                    <?php 
-                    if ($paginArr['pageNo'] > 1) { ?>
-                      <li><a href="<?php echo "?".setPageNum(1);?>">&lt;&lt;</a>
-                    <?php }?>
-                    <?php
-                    if ($paginArr['pageNo'] + 1 < $paginArr['totalPages']) {
-                      $pCount = $paginArr['pageNo'] + 1;
-                      $pStart = $paginArr['pageNo'] - 1;
-                      if ($pStart < 1) {
-                        $pStart = 1;
-                      }
-                      if ($pStart == 1) {
-                        $pCount = $pStart+2 < $paginArr['totalPages'] ? $pStart+2 : $paginArr['totalPages'];
-                      }
-                    } else {
-                      $pStart = $paginArr['pageNo'] - 1;
-                      $pCount = $paginArr['totalPages'];
-                    }
-                    for ($i=$pStart; $i <= $pCount; $i++) { 
-                      $pNum = $i ;
-                      echo "<li";
-                      if ($pNum == $paginArr['pageNo']) {
-                        echo " class='active' ";
-                      }
-                      echo "><a href='?".setPageNum($pNum)."'>$pNum</a></li>";
-                    }
-                    ?>
-                    <?php
-                    if ($paginArr['pageNo'] < $paginArr['totalPages']) { ?>
-                    <li><a href="<?php echo "?".setPageNum($paginArr['totalPages']);?>">&gt;&gt;</a>
-                    <?php }?>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <?php } ?>
+            if (!isset($_GET['q'])) {
+            require_once TEMPLATE_FRONT.DS.'product_pagination.php'; 
+            } ?>
           </div>
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">

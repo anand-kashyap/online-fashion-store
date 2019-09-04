@@ -1,6 +1,14 @@
 <?php 
 require_once 'includes/config.php'; 
-include TEMPLATE_FRONT.DS.'header.php'; ?>
+include TEMPLATE_FRONT.DS.'header.php';
+// pagination
+$paginArr = paginatedResults('products', 10, 'product_category_id');
+
+// sorting of products
+$sortedProds = sortProds();
+$orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorted = $sortedProds['sorted'];
+$cPage = 'category.php?id='.$_GET['id'];
+?>
 
     <div class="bg-light py-3">
       <div class="container">
@@ -16,55 +24,15 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
         <div class="row mb-5">
           <div class="col-md-9 order-2">
 
-            <div class="row">
-              <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex">
-                  <div class="dropdown mr-1 ml-md-auto">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Latest
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="#">Men</a>
-                      <a class="dropdown-item" href="#">Women</a>
-                      <a class="dropdown-item" href="#">Children</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Relevance</a>
-                      <a class="dropdown-item" href="#">Name, A to Z</a>
-                      <a class="dropdown-item" href="#">Name, Z to A</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Price, low to high</a>
-                      <a class="dropdown-item" href="#">Price, high to low</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <?php
+            require_once TEMPLATE_FRONT.DS.'sort_dropdown.php'; 
+            ?>
             <div class="row mb-5">
               <?php 
-              getProductsInCat(); ?>
-
+              getProductsInCat($orderBy, $orderDir, $paginArr['offset'], $paginArr['recordsPerPage']); ?>
             </div>
             <!-- pagination -->
-            <div class="row" data-aos="fade-up">
-              <div class="col-md-12 text-center">
-                <div class="site-block-27">
-                  <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <?php require_once TEMPLATE_FRONT.DS.'product_pagination.php'; ?>
           </div>
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">

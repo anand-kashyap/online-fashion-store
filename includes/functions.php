@@ -247,9 +247,12 @@ function deleteCatById($id)
 	confirm($cat);
 }
 
-function getProductsInCat()
+function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10)
 {
-	$res = query("SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']));
+	$qStr = "SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']);
+	$qStr .= " ORDER by $orderBy $orderDir LIMIT $offset, $recordsPerPage";
+	$res = query($qStr);
+	
 	confirm($res);
 	while ($row = fetch_array($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
@@ -300,9 +303,21 @@ function site_dyn_cats()
 	$category = get_cat_for_nav();
 	$parent_array = $category['categories'];
 	foreach ($parent_array as $pval) {
-	echo '<li class="mb-1"><a href="category.php?id='.$pval["id"].'" class="d-flex"><span>'.$pval["label"].'</span> <span class="text-black ml-auto">(2,220)</span></a></li>';
+	$pCount = getCount('products', "product_category_id={$pval['id']}");
+	echo '<li class="mb-1"><a href="category.php?id='.$pval["id"].'" class="d-flex"><span>'.$pval["label"].'</span> <span class="text-black ml-auto">('.$pCount.')</span></a></li>';
 
 	}
+}
+
+function getCount($tablename, $where = '')
+{
+	$qstr = "SELECT COUNT(*) FROM $tablename";
+	if (!empty($where)) {
+		$qstr .= " WHERE $where";
+	}
+	$query = query($qstr);
+	confirm($query);
+	return mysqli_fetch_array($query)[0];
 }
 
 function send_message()
@@ -425,7 +440,7 @@ function addCust($cData)
 	confirm($product);
 }
 
-function paginatedResults($tableName, $recordsPerPage = 10)
+function paginatedResults($tableName, $recordsPerPage = 10, $idColName = '')
 {
 	if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 		$pno = $_GET['page'];
@@ -434,6 +449,9 @@ function paginatedResults($tableName, $recordsPerPage = 10)
 	}
 	$offset = ($pno-1) * $recordsPerPage; 
 	$total_pages_sql = "SELECT COUNT(*) FROM $tableName";
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+		$total_pages_sql .= " WHERE $idColName=".escape_string($_GET['id']);
+	}
 	$result = query($total_pages_sql);
 	confirm($result);
 	$total_rows = mysqli_fetch_array($result)[0];
