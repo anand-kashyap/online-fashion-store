@@ -11,7 +11,6 @@ add to cart; dynamic count -- done
 user orders --done
 admin orders --done
 admin customers --done
-product filters
+product price filter, dynamic cat specific prod count --done
 sales management
 stock management and show in admin
-purchase management of raw materials

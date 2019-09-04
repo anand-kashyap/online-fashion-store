@@ -6,5 +6,10 @@
     <input type="hidden" id="lowerLimit" value="<?php echo $priceLower;?>">
     <input type="hidden" id="upperLimit" value="<?php echo $priceUpper;?>">
     <button name="priceFilter" class="btn-sm btn-primary">Apply filter</button>
+    <?php
+    if (isset($_POST['priceFilter'])) { ?>
+    <button onclick="window.location=<?php echo $cPage;?>" id="resetprice" class="btn-sm btn-outline-primary">Reset</button>
+    <?php }
+    ?>
   </form>
 </div>
