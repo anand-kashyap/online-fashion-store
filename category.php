@@ -1,6 +1,17 @@
 <?php 
 require_once 'includes/config.php'; 
 include TEMPLATE_FRONT.DS.'header.php';
+
+$where = '';
+$priceLower = 0; $priceUpper = 300;
+if (isset($_POST['priceFilter'])) {
+  $range = preg_replace('/\$/', '', $_POST['priceRange']); 
+  $range = explode(' - ', $range);
+  $priceLower = $range[0];
+  $priceUpper = $range[1];
+  $where = " AND product_price >= $priceLower AND product_price <= $priceUpper";
+}
+
 // pagination
 $paginArr = paginatedResults('products', 10, 'product_category_id');
 
@@ -29,7 +40,7 @@ $cPage = 'category.php?id='.$_GET['id'];
             ?>
             <div class="row mb-5">
               <?php 
-              getProductsInCat($orderBy, $orderDir, $paginArr['offset'], $paginArr['recordsPerPage']); ?>
+              getProductsInCat($orderBy, $orderDir, $paginArr['offset'], $paginArr['recordsPerPage'], $where); ?>
             </div>
             <!-- pagination -->
             <?php require_once TEMPLATE_FRONT.DS.'product_pagination.php'; ?>
@@ -38,11 +49,7 @@ $cPage = 'category.php?id='.$_GET['id'];
           <div class="col-md-3 order-1 mb-5 mb-md-0">
 
             <div class="border p-4 rounded mb-4">
-              <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                <div id="slider-range" class="border-primary"></div>
-                <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
-              </div>
+            <?php require_once TEMPLATE_FRONT.DS.'price_filter.php'?>
 
               <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>

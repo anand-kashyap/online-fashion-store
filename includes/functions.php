@@ -117,11 +117,12 @@ function custom_dyn_menu($category, $parent = 0)
 }
 
 //get products
-function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10)
+function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10, $where = '')
 {
 	$qStr = "SELECT * FROM products";
 	if (!$admin) {
-		$qStr .= " ORDER by $orderBy $orderDir LIMIT $offset, $recordsPerPage";
+		$qStr .= " $where ORDER BY $orderBy $orderDir LIMIT $offset, $recordsPerPage";
+		// echo $qStr;
 	}
 	$res = query($qStr);
 	confirm($res);
@@ -247,9 +248,9 @@ function deleteCatById($id)
 	confirm($cat);
 }
 
-function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10)
+function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10, $filter = '')
 {
-	$qStr = "SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']);
+	$qStr = "SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']) .$filter;
 	$qStr .= " ORDER by $orderBy $orderDir LIMIT $offset, $recordsPerPage";
 	$res = query($qStr);
 	
