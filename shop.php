@@ -12,7 +12,7 @@ if (isset($_POST['priceFilter'])) {
 }
 
 // pagination
-$paginArr = paginatedResults('products', 10);
+$paginArr = paginatedResults('products', 9);
 // sorting of products
 $sortedProds = sortProds();
 $orderBy = $sortedProds['orderBy']; $orderDir = $sortedProds['orderDir']; $sorted = $sortedProds['sorted'];
@@ -65,7 +65,7 @@ $cPage = 'shop.php';
             <div class="border p-4 rounded mb-4">
               <?php require_once TEMPLATE_FRONT.DS.'price_filter.php'?>
 
-              <div class="mb-4">
+              <!-- <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
                 <label for="s_sm" class="d-flex">
                   <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">Small (2,319)</span>
@@ -92,7 +92,7 @@ $cPage = 'shop.php';
                 <a href="#" class="d-flex color-item align-items-center" >
                   <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Purple (1,075)</span>
                 </a>
-              </div>
+              </div> -->
 
             </div>
           </div>
