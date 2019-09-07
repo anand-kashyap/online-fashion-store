@@ -196,9 +196,10 @@ function getFeaturedProducts()
 	return $featuredProds;
 }
 
-function updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured)
+function updateProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
 {
-	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_quantity=$qty, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname', is_featured=$isFeatured WHERE product_id=".escape_string($_GET['id']));
+	$pId = escape_string($_GET['id']);
+	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname', is_featured=$isFeatured WHERE product_id=".$pId);
 	confirm($product);
 }
 
@@ -208,10 +209,26 @@ function updateCat($title, $parentCat)
 	confirm($cat);
 }
 
-function addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured)
+function updateStockById($qty)
 {
-	$product = query("INSERT INTO products (product_title, product_price, product_quantity, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, $qty, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");
+	$stock = query("UPDATE inventory SET quantity='$qty' WHERE id=".escape_string($_GET['id']));
+	confirm($stock);
+}
+
+function addProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
+{
+	$product = query("INSERT INTO products (product_title, product_price, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");
 	confirm($product);
+	$pId = getLastInsertedId($product);
+	$sizeArr = ['sm', 'md', 'lg', 'xl'];
+	$vQuery = [];
+	foreach ($sizeArr as $size) {
+		$vQuery[] = " ('$pId', '$size', '100')";
+	}
+	$vQuery = implode(", ", $vQuery);
+	$order = query("INSERT INTO inventory (product_id, product_size, quantity) VALUES $vQuery");
+	confirm($order);
+	return $pId;
 }
 
 function addCat($title, $parentCat)
@@ -426,6 +443,13 @@ function getCustomers()
 	return $res;
 }
 
+function getStock()
+{
+	$res = query("SELECT inv.*, pr.product_title, pr.product_image FROM inventory AS inv JOIN products AS pr ON inv.product_id = pr.product_id");
+	confirm($res);
+	return $res;
+}
+
 function deleteCustById($id)
 {
 	$cust = query("DELETE FROM users WHERE user_id=".escape_string($id));
@@ -437,6 +461,14 @@ function getCustById($id)
 	$cust = query("SELECT user_name, email, name, company, phone, address, country FROM users WHERE user_id=".escape_string($id));
 	confirm($cust);
 	$row = fetch_array($cust);
+	return $row;
+}
+
+function getStockById($id)
+{
+	$stock = query("SELECT inv.*, pr.product_title, pr.product_image FROM inventory AS inv JOIN products AS pr ON inv.product_id = pr.product_id WHERE inv.id=".escape_string($id));
+	confirm($stock);
+	$row = fetch_array($stock);
 	return $row;
 }
 

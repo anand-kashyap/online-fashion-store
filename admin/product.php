@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     // redirect('product.php?id='.$_POST['pId']); die();
     $title = $_POST['title'];
     $price = $_POST['price'];
-    $qty = $_POST['qty'];
+    // $qty = $_POST['qty'];
     $isFeatured = $_POST['is_featured'];
     $shortDesc = $_POST['shortdesc'];
     $desc = $_POST['desc'];
@@ -22,11 +22,9 @@ if (isset($_POST['submit'])) {
         }
     }
     if (isset($_GET['id'])) {
-        updateProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured);
+        updateProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured);
     } else {
-        $prod = addProduct($title, $price, $qty, $shortDesc, $desc, $cat, $fname, $isFeatured);
-        global $connection;
-        $pId = mysqli_insert_id($connection);
+        $pId = addProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured);
         redirect("product.php?id=$pId");
     }
     unset($_POST['submit']);
@@ -62,10 +60,10 @@ $cats = getCategories();
                         <label>Price ($) (<span class="text-danger">*</span>)</label>
                         <input type="number" name="price" placeholder="e.g. 13.50" class="form-control" value="<?php echo $edit ? $row['product_price'] : 0; ?>">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Quantity (<span class="text-danger">*</span>)</label>
-                        <input type="number" name="qty" placeholder="e.g. 45" class="form-control" value="<?php echo $edit ? $row['product_quantity'] : 0; ?>">
-                    </div>
+                        <input type="number" name="qty" placeholder="e.g. 45" class="form-control" value="<?php //echo $edit ? $row['product_quantity'] : 0; ?>">
+                    </div> -->
                     <div class="form-group">
                         <label>Featured Product</label>
                         <select name="is_featured" class="form-control is-featured">

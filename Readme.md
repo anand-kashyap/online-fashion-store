@@ -11,6 +11,5 @@ add to cart; dynamic count -- done
 user orders --done
 admin orders --done
 admin customers --done
-product price filter, dynamic cat specific prod count --done
-sales management
+product price filter, dynamic cat specific prod count with child cats --done
 stock management and show in admin

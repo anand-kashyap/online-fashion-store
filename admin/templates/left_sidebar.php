@@ -27,6 +27,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="inventory.php" aria-expanded="false">
+                        <i class="mdi mdi-cube-outline"></i>
+                        <span class="hide-menu">Inventory</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="customers.php" aria-expanded="false">
                         <i class="mdi mdi-account-multiple"></i>
                         <span class="hide-menu">Customers</span>
