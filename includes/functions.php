@@ -131,7 +131,7 @@ function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $
 	}
 	while ($row = fetch_array($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                <div class="block-4 text-center border">
+                <div class="block-4 text-center border full-tile">
                   <figure class="block-4-image">
                     <a href="shop-single.php?id='.$row['product_id'].'"><img src="images/'.$row['product_image'].'" alt="Image placeholder" class="img-fluid"></a>
                   </figure>
@@ -139,8 +139,8 @@ function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $
                     <h3><a href="shop-single.php?id='.$row['product_id'].'">'.$row['product_title'].'</a></h3>
                     <p class="mb-0">'.$row['product_short_desc'].'</p>
                     <p class="text-primary font-weight-bold">$'.$row['product_price'].'</p>
-                    <p><a href="shop-single.php?id='.$row['product_id'].'" class="btn btn-primary btn-sm">View Details</a></p>
-                  </div>
+									</div>
+									<p><a href="shop-single.php?id='.$row['product_id'].'" class="btn btn-primary btn-sm">View Details</a></p>
                 </div>
               </div>';
 		echo $product;					
@@ -250,14 +250,21 @@ function deleteCatById($id)
 
 function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10, $filter = '')
 {
-	$qStr = "SELECT * FROM products WHERE product_category_id=".escape_string($_GET['id']) .$filter;
+	$catId = escape_string($_GET['id']);
+	$orCond = "";
+	$res = query("SELECT id from categories WHERE parent_id = $catId");
+	confirm($res);
+	while($childId = fetch_array($res)['id']) {
+		$orCond .= "OR product_category_id=$childId ";
+	}
+	$qStr = "SELECT * FROM products WHERE (product_category_id=".$catId." $orCond)" .$filter;
 	$qStr .= " ORDER by $orderBy $orderDir LIMIT $offset, $recordsPerPage";
 	$res = query($qStr);
 	
 	confirm($res);
 	while ($row = fetch_array($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                <div class="block-4 text-center border">
+                <div class="block-4 text-center border full-tile">
                   <figure class="block-4-image">
                     <a href="shop-single.php?id='.$row['product_id'].'"><img src="images/'.$row['product_image'].'" alt="Image placeholder" class="img-fluid"></a>
                   </figure>
@@ -304,18 +311,22 @@ function site_dyn_cats()
 	$category = get_cat_for_nav();
 	$parent_array = $category['categories'];
 	foreach ($parent_array as $pval) {
-	$pCount = getCount('products', "product_category_id={$pval['id']}");
+	$pCount = getCount('products', $pval['id']);
 	echo '<li class="mb-1"><a href="category.php?id='.$pval["id"].'" class="d-flex"><span>'.$pval["label"].'</span> <span class="text-black ml-auto">('.$pCount.')</span></a></li>';
 
 	}
 }
 
-function getCount($tablename, $where = '')
+function getCount($tablename, $catId)
 {
-	$qstr = "SELECT COUNT(*) FROM $tablename";
-	if (!empty($where)) {
-		$qstr .= " WHERE $where";
+	$orCond = "";
+	$res = query("SELECT id from categories WHERE parent_id = $catId");
+	confirm($res);
+	while($childId = fetch_array($res)['id']) {
+		$orCond .= "OR product_category_id=$childId ";
 	}
+	$qstr = "SELECT COUNT(*) FROM $tablename";
+	$qstr .= " WHERE product_category_id=$catId $orCond";
 	$query = query($qstr);
 	confirm($query);
 	return mysqli_fetch_array($query)[0];
