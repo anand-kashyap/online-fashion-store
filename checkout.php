@@ -195,6 +195,9 @@ if ($product = getCartProductsDetail()) {
                   <tbody>
                     <?php foreach ($product as $row) {
                       ?>
+                      <input type="hidden" class="addedProds" value='<?php echo $row['product_id']?>'>
+                      <input type="hidden" class="addedProdsQty" value='<?php echo $row['qty']?>'>
+                      <input type="hidden" class="addedProdsSize" value='<?php echo $row['size']?>'>
                       <tr>
                         <td><span class="product-name"><?php echo $row['product_title']; echo "({$row['size']})"; ?></span><strong class="mx-2">x</strong> <?php echo $row['qty']; ?></td>
                         <td>$<span class="sub-product-price"><?php echo $row['qty'] * $row['product_price']; ?></span></td>
@@ -240,10 +243,9 @@ if ($product = getCartProductsDetail()) {
                       <input type='hidden' name='item_name_<?php echo $row2['product_id']; ?>' value='<?php echo $row2['product_title'] ?>'>
                       <input type='hidden' name='item_number_<?php echo $row2['product_id'] ?>' value='<?php echo $row2['product_id'] ?>'>
                       <input type='hidden' name='amount_<?php echo $row2['product_id'] ?>' value='<?php echo $row2['product_price'] ?>'>
-                      <input type="hidden" class="addedProds" value='<?php echo $row2['product_id']?>'>
                     <?php } ?>
-                    <input type='hidden' name='cancel_return' value='http://localhost:8888/online-fashion-store/cart.php'>
-                    <input type='hidden' name='return' value='http://localhost:8888/online-fashion-store/thankyou.php'>
+                    <input type='hidden' name='cancel_return' value='<?php echo DOMAIN_URL?>/cart.php'>
+                    <input type='hidden' name='return' value='<?php echo DOMAIN_URL?>/thankyou.php'>
                     <input type="hidden" name="cmd" value="_cart">
                   </form>
                 </div>

@@ -5,12 +5,14 @@ $( function() {
     console.log(paymentMethod);
     const aProds = $('.addedProds');
     const pIds = [];
-    for (let sProd of aProds) {
-      sProd = sProd.value;
-      pIds.push(sProd);
+    for (let i = 0; i < aProds.length; i++) {
+        const el = {};
+        el.id = aProds[i].value;
+        el.qty = $('.addedProdsQty')[i].value;
+        el.size = $('.addedProdsSize')[i].value;
+        pIds.push(el);
     }
     $.post('thankyou.php', {pIds, paymentMethod}).done((data) => {
-      console.log(data);
       if (paymentMethod === 'paypal') {
         let productNamesArr = $('.product-name').map(function(){
           return $.trim($(this).text());

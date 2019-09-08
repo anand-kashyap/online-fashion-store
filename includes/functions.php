@@ -417,11 +417,11 @@ function send_message()
 function addOrder($productIds, $pMethod)
 {
 	$cust_id = getLoggedInUser()['user_id'];
-	$valQuery = "";
+	$valQuery = [];
 	foreach ($productIds as $pId) {
-		$valQuery .= " ($cust_id, $pId, 1, '$pMethod')";
+		$valQuery[]= " ($cust_id, {$pId['id']}, {$pId['qty']}, '{$pId['size']}', '$pMethod')";
 	}
-	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity, payment_method) VALUES $valQuery");
+	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity, size, payment_method) VALUES ".join(", ",$valQuery));
 	confirm($order);
 }
 
@@ -457,7 +457,7 @@ function dyn_menu_admin($category, $parent = 0)
 
 function getAllOrders()
 {
-	$orders = query("SELECT ord.order_id, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id ORDER BY ord.order_id");
+	$orders = query("SELECT ord.order_id, ord.size, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id ORDER BY ord.order_id");
 	confirm($orders);
 	return $orders;
 }
