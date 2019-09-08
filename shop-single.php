@@ -31,6 +31,9 @@ $row = getProductById($_GET['id']);
               <?php 
               $sizes = getProdSizesById($row['product_id']);
               while ($size = fetch_array($sizes)) {
+                if ($size['quantity'] < 1) {
+                  continue;
+                }
                 echo "<label for='option-{$size['product_size']}' class='d-flex mr-3 mb-3'>
                 <span class='d-inline-block mr-2' style='top:-2px; position: relative;'><input type='radio' id='option-{$size['product_size']}' value='{$size['product_size']}' name='size'></span> <span class='d-inline-block text-black'>".getSize($size['product_size'])."</span>
               </label>";

@@ -420,6 +420,12 @@ function addOrder($productIds, $pMethod)
 	$valQuery = [];
 	foreach ($productIds as $pId) {
 		$valQuery[]= " ($cust_id, {$pId['id']}, {$pId['qty']}, '{$pId['size']}', '$pMethod')";
+		$curQty = query("SELECT id, quantity FROM inventory WHERE product_id={$pId['id']} AND product_size='{$pId['size']}'");
+		confirm($curQty);
+		$resInv = fetch_array($curQty);
+		$upQty = (int)$resInv['quantity'] - (int)$pId['qty'];
+		$res = query("UPDATE inventory SET quantity=$upQty WHERE id=".$resInv['id']);
+		confirm($res);
 	}
 	$order = query("INSERT INTO customer_order (cust_id, product_id, quantity, size, payment_method) VALUES ".join(", ",$valQuery));
 	confirm($order);

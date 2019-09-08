@@ -9,6 +9,12 @@
     if (isset($_SESSION['cart'])) {
       unset($_SESSION['cart']);
     }
+    /* $pIds = query("SELECT product_id from products");
+    while($pid = fetch_array($pIds)['product_id']) {
+      $res = query("INSERT INTO inventory (product_id, product_size, quantity) VALUES ($pid, 'sm', 100), ($pid, 'md', 100), ($pid, 'lg', 100), ($pid, 'xl', 100) ");
+
+    } */
+
     include TEMPLATE_FRONT.DS.'header.php'; ?>
 
     <div class="site-section">
