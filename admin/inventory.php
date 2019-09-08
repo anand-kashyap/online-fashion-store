@@ -48,21 +48,7 @@
                   <td class="id-link"><a href="product.php?id=<?php echo $row['product_id']?>"><?php echo $row['product_title']; ?></a></td>
                   <td><?php 
                   $size = $row['product_size'];
-                  switch ($size) {
-                    case $size == 'sm':
-                      echo 'Small';
-                      break;
-                    case $size == 'md':
-                      echo 'Medium';
-                      break;
-                    case $size == 'lg':
-                      echo 'Large';
-                      break;
-                    
-                    default:
-                      echo 'Extra-Large';
-                      break;
-                  }
+                  echo getSize($size);
                   ?></td>
                   <td><?php echo $row['quantity']; ?></td>
                   <td>

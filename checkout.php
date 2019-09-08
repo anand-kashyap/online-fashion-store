@@ -2,6 +2,7 @@
 require_once 'includes/config.php';
 include TEMPLATE_FRONT . DS . 'header.php';
 if ($product = getCartProductsDetail()) {
+  // print_r($product); die;
   ?>
   <div class="bg-light py-3">
     <div class="container">
@@ -192,15 +193,20 @@ if ($product = getCartProductsDetail()) {
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    <?php while ($row = fetch_array($product)) { ?>
+                    <?php foreach ($product as $row) {
+                      ?>
                       <tr>
-                        <td><span class="product-name"><?php echo $row['product_title']; ?></span><strong class="mx-2">x</strong> 1</td>
-                        <td>$<span class="sub-product-price"><?php echo $row['product_price']; ?></span></td>
+                        <td><span class="product-name"><?php echo $row['product_title']; echo "({$row['size']})"; ?></span><strong class="mx-2">x</strong> <?php echo $row['qty']; ?></td>
+                        <td>$<span class="sub-product-price"><?php echo $row['qty'] * $row['product_price']; ?></span></td>
                       </tr>
                     <?php } ?>
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
                       <td class="text-black">$<span id="sub-total-price">0<span></td>
+                    </tr>
+                    <tr>
+                      <td class="text-black font-weight-bold"><strong>Delivery Charges</strong></td>
+                      <td class="text-black">$<span id="sub-total-price">10.00<span></td>
                     </tr>
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
@@ -230,7 +236,7 @@ if ($product = getCartProductsDetail()) {
                     <input type='hidden' name='currency_code' value='USD'>
                     <input type="hidden" name="upload" value="1">
                     <?php $product2 = getCartProductsDetail();
-                      while ($row2 = fetch_array($product2)) { ?>
+                      foreach ($product2 as $row2) { ?>
                       <input type='hidden' name='item_name_<?php echo $row2['product_id']; ?>' value='<?php echo $row2['product_title'] ?>'>
                       <input type='hidden' name='item_number_<?php echo $row2['product_id'] ?>' value='<?php echo $row2['product_id'] ?>'>
                       <input type='hidden' name='amount_<?php echo $row2['product_id'] ?>' value='<?php echo $row2['product_price'] ?>'>
@@ -241,7 +247,6 @@ if ($product = getCartProductsDetail()) {
                     <input type="hidden" name="cmd" value="_cart">
                   </form>
                 </div>
-
 
                 <div class="form-group">
                   <button class="btn btn-primary btn-lg py-3 btn-block" id="place-order">Place Order</button>

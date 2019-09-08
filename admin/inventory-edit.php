@@ -2,7 +2,6 @@
 <?php require_once './templates/top_nav.php'; ?>
 <?php require_once './templates/left_sidebar.php'; ?>
 <?php 
-$edit = false;
 $pTitle = 'Edit';
 if (isset($_POST['submit'])) {
   $qty = $_POST['qty'];
@@ -34,7 +33,7 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="form-group">
                       <label>Size</label>
-                      <input type="text" disabled class="form-control" value="<?php echo $row['product_size'];?>">
+                      <input type="text" disabled class="form-control" value="<?php echo getSize( $row['product_size']);?>">
                     </div>
                     <div class="form-group">
                         <label>Quantity (<span class="text-danger">*</span>)</label>

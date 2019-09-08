@@ -215,6 +215,32 @@ function updateStockById($qty)
 	confirm($stock);
 }
 
+function getProdSizesById($pId)
+{
+	$sizes = query("SELECT * FROM inventory WHERE product_id=$pId");
+	confirm($sizes);
+	return $sizes;
+}
+
+function getSize($scode)
+{
+	switch ($scode) {
+		case $scode == 'sm':
+			return 'Small';
+			break;
+		case $scode == 'md':
+			return 'Medium';
+			break;
+		case $scode == 'lg':
+			return 'Large';
+			break;
+                    
+		default:
+			return 'Extra-Large';
+			break;
+	}
+}
+
 function addProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
 {
 	$product = query("INSERT INTO products (product_title, product_price, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");

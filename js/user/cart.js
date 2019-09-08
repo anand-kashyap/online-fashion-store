@@ -28,7 +28,9 @@ $( function() {
 
 		} else {
 			inputValEl = $(this).parent().prev(); //input el
-			
+			if ($(inputValEl).val() > 4) {
+				return;
+			}
 			inputVal = parseInt($(inputValEl).val()) + 1;
 		}
 		let td = $(inputValEl).parent().parent(); //td

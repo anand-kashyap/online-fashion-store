@@ -1,12 +1,12 @@
 <?php
 require_once 'includes/config.php';
-if (isset($_GET['addByajax'])) {
-  echo addToCart(true);
+if (isset($_POST['addByajax'])) {
+  echo addToCart();
   return;
 }
 include TEMPLATE_FRONT . DS . 'header.php';
-addToCart();
-removeFromCart();
+// addToCart();
+// removeFromCart();
 ?>
 
 <div class="bg-light py-3">
@@ -26,6 +26,7 @@ removeFromCart();
             <tr>
               <th class="product-thumbnail">Image</th>
               <th class="product-name">Product</th>
+              <th class="product-name">Size</th>
               <th class="product-price">Price</th>
               <th class="product-quantity">Quantity</th>
               <th class="product-total">Total</th>
@@ -34,11 +35,10 @@ removeFromCart();
           </thead>
           <tbody>
           <?php
-            if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) { ?>
+            if (isset($_SESSION['cart']) && getProdCount() > 0) { ?>
             <?php
-            if ($product = getCartProductsDetail()) {
-              while ($row = fetch_array($product)) { ?>
-
+            if ($products = getCartProductsDetail()) {
+              foreach ($products as $row) { ?>
                 <tr>
                   <td class="product-thumbnail">
                     <img src="images/<?php echo $row['product_image']; ?>" alt="Image" class="img-fluid">
@@ -46,20 +46,21 @@ removeFromCart();
                   <td class="product-name">
                     <h2 class="h5 text-black"><?php echo $row['product_title']; ?></h2>
                   </td>
+                  <td><?php echo getSize($row['size']); ?></td>
                   <td><?php echo $row['product_price']; ?></td>
                   <td>
                     <div class="input-group mb-3" style="max-width: 120px;">
                       <div class="input-group-prepend">
                         <button class="btn btn-outline-primary js-btn-minus calc" type="button">-</button>
                       </div>
-                      <input type="text" disabled class="form-control text-center" min="1" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <input type="text" disabled class="form-control text-center" min="1" value="<?php echo $row['qty'];?>" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                       <div class="input-group-append">
                         <button class="btn btn-outline-primary js-btn-plus calc" type="button">+</button>
                       </div>
                     </div>
 
                   </td>
-                  <td class="sub-product-price"><?php echo $row['product_price']; ?></td>
+                  <td class="sub-product-price"><?php echo $row['qty'] * $row['product_price']; ?></td>
                   <td class="delete-item" id="<?php echo $row['product_id']; ?>"><button type="button" class="btn btn-primary btn-sm">X</button></td>
                 </tr>
             <?php
@@ -77,22 +78,10 @@ removeFromCart();
   <div class="row">
     <div class="col-md-6">
       <div class="row mb-5">
-        <div class="col-md-6">
-          <button class="btn btn-outline-primary btn-sm btn-block" onclick="window.location='shop.php'">Continue Shopping</button>
-        </div>
+      <div class="col-md-6">
+        <button class="btn btn-outline-primary btn-sm btn-block" onclick="window.location='shop.php'">Continue Shopping</button>
       </div>
-      <!-- <div class="row">
-            <div class="col-md-12">
-              <label class="text-black h4" for="coupon">Coupon</label>
-              <p>Enter your coupon code if you have one.</p>
-            </div>
-            <div class="col-md-8 mb-3 mb-md-0">
-              <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-            </div>
-            <div class="col-md-4">
-              <button class="btn btn-primary btn-sm">Apply Coupon</button>
-            </div>
-          </div> -->
+      </div>
     </div>
     <div class="col-md-6 pl-5">
       <div class="row justify-content-end">
@@ -108,6 +97,14 @@ removeFromCart();
             </div>
             <div class="col-md-6 text-right">
               <strong class="text-black" id="sub-total-price">$0</strong>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <span class="text-black">Delivery Charges</span>
+            </div>
+            <div class="col-md-6 text-right">
+              <strong class="text-black" id="sub-total-price">$10.00</strong>
             </div>
           </div>
           <div class="row mb-5">
