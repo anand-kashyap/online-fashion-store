@@ -60,18 +60,17 @@ include TEMPLATE_FRONT.DS.'header.php';
           </div>
           <div class="col-md-5 ml-auto">
             <div class="p-4 border mb-3">
-              <span class="d-block text-primary h6 text-uppercase">New York</span>
-              <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
+              <span class="d-block text-primary h6 text-uppercase">California</span>
+              <p class="mb-0">203 St. Mountain View, San Francisco, California, USA</p>
             </div>
             <div class="p-4 border mb-3">
-              <span class="d-block text-primary h6 text-uppercase">London</span>
-              <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
+              <span class="d-block text-primary h6 text-uppercase">Copenhagen</span>
+              <p class="mb-0">Østergade 52 (Købmagergade), 1001 Copenhagen, Denmark</p>
             </div>
             <div class="p-4 border mb-3">
-              <span class="d-block text-primary h6 text-uppercase">Canada</span>
-              <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
+              <span class="d-block text-primary h6 text-uppercase">Ottawa</span>
+              <p class="mb-0">50 Rideau St, Ottawa, ON K1N 9J7, Canada</p>
             </div>
-
           </div>
         </div>
       </div>

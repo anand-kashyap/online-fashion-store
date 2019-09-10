@@ -28,11 +28,10 @@ include TEMPLATE_FRONT.DS.'header.php';
             
             
             <div class="site-section-heading pt-3 mb-4">
-              <h2 class="text-black">How We Started</h2>
+              <h2 class="text-black">Online shopping is hassle-free!</h2>
             </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius repellat, dicta at laboriosam, nemo exercitationem itaque eveniet architecto cumque, deleniti commodi molestias repellendus quos sequi hic fugiat asperiores illum. Atque, in, fuga excepturi corrupti error corporis aliquam unde nostrum quas.</p>
-            <p>Accusantium dolor ratione maiores est deleniti nihil? Dignissimos est, sunt nulla illum autem in, quibusdam cumque recusandae, laudantium minima repellendus.</p>
-            
+            <p>We believe in creating the kind of fashion, that makes you stand out as they are in line with the latest local and global trends of the industry, but also at the same time offer value for money functionality, with quality materials and comfortable and flattering prints.</p>
+            <p>While most people do not know, we do not outsource the manufacturing of our products, everything from the conception of the designs to the manufacture and the styling that you see on the photographs of the banners and product pages of our website all happen in house! </p>
           </div>
         </div>
       </div>
@@ -55,9 +54,6 @@ include TEMPLATE_FRONT.DS.'header.php';
                   <h3 class="block-38-heading h4">Elizabeth Graham</h3>
                   <p class="block-38-subheading">CEO/Co-Founder</p>
                 </div>
-                <div class="block-38-body">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aut minima nihil sit distinctio recusandae doloribus ut fugit officia voluptate soluta. </p>
-                </div>
               </div>
             </div>
           </div>
@@ -68,9 +64,6 @@ include TEMPLATE_FRONT.DS.'header.php';
                   <img src="images/person_2.jpg" alt="Image placeholder" class="mb-4">
                   <h3 class="block-38-heading h4">Jennifer Greive</h3>
                   <p class="block-38-subheading">Co-Founder</p>
-                </div>
-                <div class="block-38-body">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aut minima nihil sit distinctio recusandae doloribus ut fugit officia voluptate soluta. </p>
                 </div>
               </div>
             </div>
@@ -83,9 +76,6 @@ include TEMPLATE_FRONT.DS.'header.php';
                   <h3 class="block-38-heading h4">Patrick Marx</h3>
                   <p class="block-38-subheading">Marketing</p>
                 </div>
-                <div class="block-38-body">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aut minima nihil sit distinctio recusandae doloribus ut fugit officia voluptate soluta. </p>
-                </div>
               </div>
             </div>
           </div>
@@ -97,9 +87,6 @@ include TEMPLATE_FRONT.DS.'header.php';
                   <h3 class="block-38-heading h4">Mike Coolbert</h3>
                   <p class="block-38-subheading">Sales Manager</p>
                 </div>
-                <div class="block-38-body">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aut minima nihil sit distinctio recusandae doloribus ut fugit officia voluptate soluta. </p>
-                </div>
               </div>
             </div>
           </div>
@@ -107,42 +94,7 @@ include TEMPLATE_FRONT.DS.'header.php';
       </div>
     </div>
   
-
-    <div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
-            <div class="icon mr-4 align-self-start">
-              <span class="icon-truck"></span>
-            </div>
-            <div class="text">
-              <h2 class="text-uppercase">Free Shipping</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon mr-4 align-self-start">
-              <span class="icon-refresh2"></span>
-            </div>
-            <div class="text">
-              <h2 class="text-uppercase">Free Returns</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon mr-4 align-self-start">
-              <span class="icon-help"></span>
-            </div>
-            <div class="text">
-              <h2 class="text-uppercase">Customer Support</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
+    <? include TEMPLATE_FRONT.DS.'site_blocks.php'?>    
     <?php 
     include TEMPLATE_FRONT.DS.'footer.php';
     ?>

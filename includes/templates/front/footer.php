@@ -9,7 +9,6 @@
               <div class="col-md-6 col-lg-4">
                 <ul class="list-unstyled">
                   <li><a href="#">Sell online</a></li>
-                  <li><a href="#">Features</a></li>
                   <li><a href="#">Shopping cart</a></li>
                   <li><a href="#">Store builder</a></li>
                 </ul>
@@ -18,7 +17,7 @@
                 <ul class="list-unstyled">
                   <li><a href="#">Mobile commerce</a></li>
                   <li><a href="#">Dropshipping</a></li>
-                  <li><a href="#">Website development</a></li>
+                  <li><a href="#">Features</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-4">
@@ -42,9 +41,9 @@
             <div class="block-5 mb-5">
               <h3 class="footer-heading mb-4">Contact Info</h3>
               <ul class="list-unstyled">
-                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                <li class="address">203 St. Mountain View, San Francisco, California, USA</li>
                 <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                <li class="email">emailaddress@domain.com</li>
+                <li class="email">ofs@info.com</li>
               </ul>
             </div>
 
