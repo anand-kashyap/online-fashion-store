@@ -461,9 +461,17 @@ function dyn_menu_admin($category, $parent = 0)
 	return $html;
 }
 
-function getAllOrders()
+function getAllOrders($from = '', $to = '')
 {
-	$orders = query("SELECT ord.order_id, ord.size, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id ORDER BY ord.order_id");
+	$qstr = "SELECT ord.order_id, ord.size, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id";
+	if (!empty($from) && !empty($to)) {
+		$from = date_format(date_create($from), 'Y-m-d');
+		$to = date_format(date_create($to), 'Y-m-d');
+		$qstr .=  " WHERE ord.order_date>='$from' AND ord.order_date<='$to'";
+	}
+	$qstr .= " ORDER BY ord.order_id";
+	// echo $qstr; die;
+	$orders = query($qstr);
 	confirm($orders);
 	return $orders;
 }

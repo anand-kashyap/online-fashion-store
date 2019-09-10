@@ -132,4 +132,19 @@ $(function() {
         $('.left-part').toggleClass('show-panel');
         $('.show-left-part').toggleClass('ti-menu');
     });
+
+    // date range
+    $('#date-picker input').on('keyup', function () {
+        const label = $(this).attr('name');
+        const from = $(this).val();
+        const fDate = new Date(from);
+        if (!isValidDate(fDate)) {
+            $(this).next().text('Invalid '+label+' Date');
+        } else {
+            $(this).next().text('');
+        }
+    });
+    function isValidDate(d) {
+        return d instanceof Date && !isNaN(d);
+    }
 });

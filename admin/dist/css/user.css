@@ -4,3 +4,6 @@ form .error {
 
 .is-featured { width: 8%;}
 .id-link a{color: #6a7a8c;}
+.date-picker input {
+  margin: 0;
+}

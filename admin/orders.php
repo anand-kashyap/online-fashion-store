@@ -2,8 +2,12 @@
 <?php require_once './templates/top_nav.php'; ?>
 <?php require_once './templates/left_sidebar.php'; ?>
 <?php //require_once './templates/breadcrumb.php'; 
+$from = ''; $to = '';
+if (isset($_POST['from']) && isset($_POST['to'])) {
+  $from = $_POST['from'];
+  $to = $_POST['to'];
+}
 ?>
-
 
 <!-- ============================================================== -->
 <!-- Container fluid  -->
@@ -18,8 +22,27 @@
       <div class="card">
         <div class="card-body mp-1">
           <div class="row">
-            <div class="col-10">
+            <div class="col-4">
               <h4 class="card-title mb-0">Available Orders</h4>
+            </div>
+            <div class="col-8">
+              <form action="" method="post">
+                <div class="row date-picker" id="date-picker">
+                  <div class="col-3">
+                    <input placeholder="YYYY/MM/DD" value="<?php echo $from;?>" name="from" class="form-control form-control-sm" type="text">
+                    <span class="text-danger"></span>
+                  </div>
+                  <div class="col-1"><span>to</span></div>
+                  <div class="col-3">
+                    <input placeholder="YYYY/MM/DD" name="to" value="<?php echo $to;?>" class="form-control form-control-sm" type="text">
+                    <span class="text-danger"></span>
+                  </div>
+                  <div class="col-5">
+                    <button class="btn btn-sm btn-outline-success">Search</button>
+                    <button class="btn btn-sm btn-outline-danger" type="button" onclick="window.location='orders.php'">Reset</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -41,7 +64,7 @@
             </thead>
             <tbody>
               <?php
-              $orders = getAllOrders();
+                $orders = getAllOrders($from, $to);
               while ($row = fetch_array($orders)) {
                 ?>
                 <tr>
@@ -51,7 +74,7 @@
                   <td><?php echo getSize($row['size']); ?></td>
                   <td><?php echo $row['quantity']; ?></td>
                   <td><span class="font-medium">$<?php echo $row['product_price'] * $row['quantity']; ?></span></td>
-                  <td><?php echo date_format(date_create($row['order_date']), 'l, d F, Y');?></td>
+                  <td><?php echo date_format(date_create($row['order_date']), 'l, d/m/Y');?></td>
                   <td class="id-link"><a href="customer.php?id=<?php echo $row['cust_id']?>"><?php echo ucwords($row['name']);?></a></td>
                   <td><?php echo ucwords($row['payment_method']);?></td>
                 </tr>
