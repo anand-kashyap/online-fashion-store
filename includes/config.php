@@ -9,8 +9,7 @@ session_start();
 defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR); //checking for constant and defining if not found 
 // echo DS; //used to get platform specific separator
 // echo __DIR__; //get dir path of current file excluding filename
-defined('TEMPLATE_FRONT') ? null : define('TEMPLATE_FRONT', __DIR__. DS . "templates/front"); 
-defined('TEMPLATE_BACK') ? null : define('TEMPLATE_BACK',  __DIR__. DS . "templates/back"); 
+defined('TEMPLATE_FRONT') ? null : define('TEMPLATE_FRONT', __DIR__. DS . "templates");  
 defined('HOME') ? null : define('HOME',  "index.php"); 
 
 

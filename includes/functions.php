@@ -470,7 +470,6 @@ function getAllOrders($from = '', $to = '')
 		$qstr .=  " WHERE ord.order_date>='$from' AND ord.order_date<='$to'";
 	}
 	$qstr .= " ORDER BY ord.order_id";
-	// echo $qstr; die;
 	$orders = query($qstr);
 	confirm($orders);
 	return $orders;

@@ -1,12 +1,15 @@
-<?php 
-require_once 'includes/config.php'; 
-include TEMPLATE_FRONT.DS.'header.php'; ?>
+<?php
+require_once 'includes/config.php';
+include TEMPLATE_FRONT . DS . 'header.php'; ?>
 <div class="site-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<h2 class="h3 mb-3 text-black text-center">Register Your Account</h2>
-				<?php displayMessage(); ?>
+				<?php 
+				/* error messages if any */
+				displayMessage(); 
+				?>
 			</div>
 			<div class="col-md-6 offset-md-3">
 				<form action="" method="post">
@@ -14,17 +17,15 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 						<div class="form-group row">
 							<div class="col-md-12">
 								<label for="user_email" class="text-black">Email <span class="text-danger">*</span></label>
-								<input type="text" class="form-control" id="user_email" autocomplete="new-email" name="useremail" minlength="3"
-								required>
+								<input type="text" class="form-control" id="user_email" autocomplete="new-email" name="useremail" minlength="3" required>
 							</div>
 							<div class="col-md-12 mt-4">
 								<label for="user_name" class="text-black">User Name <span class="text-danger">*</span></label>
-								<input type="text" class="form-control" autocomplete="new-user_name" id="user_name" name="username" minlength="3"
-								required>
+								<input type="text" class="form-control" autocomplete="new-user_name" id="user_name" name="username" minlength="3" required>
 							</div>
 							<div class="col-md-12 mt-4">
 								<label for="user_pass" class="text-black">Password <span class="text-danger">*</span></label>
-								<input type="password" autocomplete="new-password" class="form-control" id="user_pass" name="userpass" minlength="3" required >
+								<input type="password" autocomplete="new-password" class="form-control" id="user_pass" name="userpass" minlength="3" required>
 							</div>
 						</div>
 						<div class="form-group mt-4 row">
@@ -37,9 +38,9 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 					</div>
 				</form>
 			</div>
-          
-  </div>
-</div>
+
+		</div>
+	</div>
 
 
-<?php include TEMPLATE_FRONT.DS.'footer.php'; ?>
+	<?php include TEMPLATE_FRONT . DS . 'footer.php'; ?>
