@@ -21,7 +21,7 @@ defined('HOME') ? null : define('HOME',  "index.php");
 // defined('DB_PASS') ? null : define('DB_PASS', "rooted"); 
 
 // defined('DB_NAME') ? null : define('DB_NAME', "id9043215_online_fashion_store"); 
-// defined('DOMAIN_URL') ? null : define('DOMAIN_URL', "http://localhost:8888/online-fashion-store");
+// defined('DOMAIN_URL') ? null : define('DOMAIN_URL', "https://online-fashion-store.000webhostapp.com");
 
 /*DB Info - mac office development*/
 defined('DB_HOST') ? null : define('DB_HOST', "localhost"); 

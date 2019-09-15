@@ -227,6 +227,15 @@ if ($product = getCartProductsDetail()) {
                   </div>
                 </div>
 
+                <div class="border p-3 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment-method" id="cash-on-delivery" value="cash on delivery">
+                    <label class="h6 form-check-label" for="cash-on-delivery">
+                      Cash On Delivery
+                    </label>
+                  </div>
+                </div>
+
                 <div class="border p-3 mb-5">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="payment-method" id="paypal" value="paypal">

@@ -469,7 +469,7 @@ function getAllOrders($from = '', $to = '')
 		$to = date_format(date_create($to), 'Y-m-d');
 		$qstr .=  " WHERE ord.order_date>='$from' AND ord.order_date<='$to'";
 	}
-	$qstr .= " ORDER BY ord.order_id";
+	$qstr .= " ORDER BY ord.order_date DESC";
 	$orders = query($qstr);
 	confirm($orders);
 	return $orders;
