@@ -1,8 +1,8 @@
 <div class="container">
 	<ul class="site-menu js-clone-nav d-none d-md-block">
 		<?php
-		$category = get_cat_for_nav();
-		echo custom_dyn_menu($category);
+		$category = catsForNav();
+		echo dynamicMenu($category);
 		?>
 		<li><a href="shop.php">Shop</a></li>
 		<li class="">

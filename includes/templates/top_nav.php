@@ -39,7 +39,6 @@
 					<?php } else { ?>
 						<li><a href="login.php">Login</a></li>
 					<?php } ?>
-					<!-- <li><a href="#"><span class="icon icon-heart-o"></span></a></li> -->
 					<li>
 						<a href="cart.php" class="site-cart">
 							<span class="icon icon-shopping_cart"></span>

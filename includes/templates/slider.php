@@ -9,7 +9,7 @@
 			<div class="nonloop-block-3 owl-carousel">
 				<?php 
 				$res = getFeaturedProducts();
-				while ($row = fetch_array($res)) {?>
+				while ($row = fetchArray($res)) {?>
 				<div class="item">
 					<div class="block-4 text-center">
 						<figure class="block-4-image">

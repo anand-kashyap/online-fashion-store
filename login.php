@@ -32,7 +32,6 @@ include TEMPLATE_FRONT.DS.'header.php'; ?>
 								<p>New User? <a href="signup.php">SIGN UP</a> </p>
 							</div>
 						</div>
-						<!-- <div class="form-group row"></div> -->
 						<?php loginUser(); ?>
 					</div>
 				</form>

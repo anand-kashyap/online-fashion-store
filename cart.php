@@ -5,8 +5,6 @@ if (isset($_POST['addByajax'])) {
   return;
 }
 include TEMPLATE_FRONT . DS . 'header.php';
-// addToCart();
-// removeFromCart();
 ?>
 
 <div class="bg-light py-3">

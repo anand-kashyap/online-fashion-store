@@ -65,7 +65,7 @@ if (isset($_POST['from']) && isset($_POST['to'])) {
             <tbody>
               <?php
                 $orders = getAllOrders($from, $to);
-              while ($row = fetch_array($orders)) {
+              while ($row = fetchArray($orders)) {
                 ?>
                 <tr>
                   <td><h5><?php echo $row['order_id'] ?></h5></td>

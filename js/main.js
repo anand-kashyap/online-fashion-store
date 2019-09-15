@@ -1,4 +1,5 @@
- AOS.init({
+/* animation config */
+AOS.init({
  	duration: 800,
  	easing: 'slide',
  	once: true
@@ -7,7 +8,7 @@
 jQuery(document).ready(function($) {
 
 	"use strict";
-
+/* slider settings */
 	var slider = function() {
 		$('.nonloop-block-3').owlCarousel({
 	    center: false,

@@ -2,7 +2,6 @@
 require_once 'includes/config.php';
 include TEMPLATE_FRONT . DS . 'header.php';
 if ($product = getCartProductsDetail()) {
-  // print_r($product); die;
   ?>
   <div class="bg-light py-3">
     <div class="container">
@@ -166,23 +165,6 @@ if ($product = getCartProductsDetail()) {
         </div>
         <div class="col-md-6">
 
-          <!-- <div class="row mb-5">
-              <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
-                <div class="p-3 p-lg-5 border">
-                  
-                  <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
-                  <div class="input-group w-75">
-                    <input type="text" class="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Apply</button>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div> -->
-
           <div class="row mb-5">
             <div class="col-md-12">
               <h2 class="h3 mb-3 text-black">Your Order</h2>
@@ -269,7 +251,6 @@ if ($product = getCartProductsDetail()) {
 
         </div>
       </div>
-      <!-- </form> -->
     </div>
   </div>
   <script src='js/user/cart.js'></script>

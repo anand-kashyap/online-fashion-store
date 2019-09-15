@@ -38,7 +38,7 @@
                         <tbody>
                           <?php 
                           $custs = getCustomers();
-                          while ($row = fetch_array($custs)) {
+                          while ($row = fetchArray($custs)) {
                           ?>
                           <tr>
                             <td><span class="font-medium"><?php echo $row['user_id']?></span></td>

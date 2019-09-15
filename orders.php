@@ -34,7 +34,7 @@ include TEMPLATE_FRONT . DS . 'header.php';
           <tbody>
             <?php
             if ($orders = getMyOrders()) {
-              while ($row = fetch_array($orders)) { ?>
+              while ($row = fetchArray($orders)) { ?>
                 <tr>
                 <td class="order-id">
                     <h2 class="h5 text-black"><?php echo $row['order_id']; ?></h2>

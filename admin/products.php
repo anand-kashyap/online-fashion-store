@@ -40,7 +40,7 @@
                         <tbody>
                           <?php 
                           $prods = getProducts(true);
-                          while ($row = fetch_array($prods)) {
+                          while ($row = fetchArray($prods)) {
                           ?>
                           <tr>
                             <td class="w-25"><img src="../images/<?php echo $row['product_image']?>" alt="Image placeholder" class="w-50"></td>

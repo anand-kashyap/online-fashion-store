@@ -1,12 +1,12 @@
 <?
 if (isset($_POST['subId'])) {
   require_once '../includes/config.php';
-  $category = get_cat_for_nav();
+  $category = catsForNav();
   if (count($category['categories']) === 0) {
     echo '';
     return;
   }
-  echo dyn_menu_admin($category, $_POST['subId']); return;
+  echo dynMenuAdmin($category, $_POST['subId']); return;
 }
 ?>
 <?php require_once './templates/header.php'; ?>
@@ -61,7 +61,7 @@ $cats = getCategories();
                       <select name="parent_category" class="form-control">
                         <option value="0">Root Category</option>
                         <?php 
-                        while ($cat = fetch_array($cats)) {
+                        while ($cat = fetchArray($cats)) {
                           if ($cat['id'] == $row['id']) {
                             continue;
                           }

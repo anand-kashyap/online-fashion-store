@@ -19,7 +19,7 @@ include TEMPLATE_FRONT.DS.'header.php';
           <div class="col-md-7">
 
             <form action="" method="post" name="contact">
-              <?php send_message(); ?>
+              <?php sendMessage(); ?>
               <div class="p-3 p-lg-5 border">
                 <div class="form-group row">
                   <div class="col-md-6">

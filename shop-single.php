@@ -30,7 +30,7 @@ $row = getProductById($_GET['id']);
             <div class="mb-1 d-flex">
               <?php 
               $sizes = getProdSizesById($row['product_id']);
-              while ($size = fetch_array($sizes)) {
+              while ($size = fetchArray($sizes)) {
                 if ($size['quantity'] < 1) {
                   continue;
                 }

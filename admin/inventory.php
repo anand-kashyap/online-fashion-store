@@ -39,7 +39,7 @@
             <tbody>
               <?php
               $stock = getStock();
-              while ($row = fetch_array($stock)) {
+              while ($row = fetchArray($stock)) {
                 // print_r($row); die;
                 ?>
                 <tr>

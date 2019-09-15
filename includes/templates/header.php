@@ -12,7 +12,6 @@ $page_title = 'Online Fashion Store &mdash; e-Commerce Website';
     <script
       src="https://www.paypal.com/sdk/js?client-id=AQwkB3vnaiCsJNby0JtkUy6Jx71JzOzkOEM11MOAgPkJqJMoPD7GtN5IpFzoqdKlOU7f2ZwJEydU-FkF">
     </script>
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">  -->
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">

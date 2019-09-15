@@ -2,6 +2,9 @@
  require_once('functions/loginandregister.php');
  require_once('functions/cart.php');
 
+/****************HELPER FUNCTIONS*********************************/
+
+/* function for setting success/error message */
 function setMessage($msg, $success = false)
 {
 	if (!empty($msg)) {
@@ -10,12 +13,12 @@ function setMessage($msg, $success = false)
 		 $textClass = 'text-success';
 		}
 		$_SESSION['message'] = "<div class='$textClass container text-center'>$msg</div>";
-		// die($_SESSION['message']);
 	} else{
 		$msg = '';
 	}
 }
 
+/* function for showing message */
 function displayMessage($check = false)
 {
 	if (isset($_SESSION['message'])) {
@@ -24,6 +27,7 @@ function displayMessage($check = false)
 	}
 }
 
+/* function for checking if message is present in SESSION variable */
 function checkIfMessage()
 {
 	if (isset($_SESSION['message'])) {
@@ -33,35 +37,27 @@ function checkIfMessage()
 	}
 }
 
+/* function for comparing strings if second string is a substring of first string */
 function compareStrings($str, $substr) {
-	// PHP code to check if a string is 
-	// substring of other 
-	// $s1 = "geeksforgeeks"; 
-	// $s2 = "geeks"; 
 	if (strpos($str, $substr) !== false)
 		return true;
 	else
 		return false;
 }
-//helper functions
+
+/* function for redirecting to a page */
 function redirect($location){
-	//FIXME
-	/*if (compareStrings($_SERVER['REQUEST_URI'], 'admin')) {
-		header("Location: ../$location");
-	} else {*/
-		// header("Location: $location"); //prod
-		// $location = '/online-fashion-store/'+$location;//dev mac
-		header("Location: $location"); //dev mac
-	// }
+		header("Location: $location");
 }
 
-
+/* function for making sql query to database */
 function query($sql)
 {
 	global $connection;
 	return mysqli_query($connection, $sql);
 }
 
+/* function for checking if ran sql query was successful */
 function confirm($result)
 {
 	global $connection;
@@ -70,32 +66,30 @@ function confirm($result)
 	}
 }
 
+/* function for getting last inserted auto incremented id after an insert operation in database */
 function getLastInsertedId()
 {
 	global $connection;
 	return mysqli_insert_id($connection);
 }
 
-function escape_string($string)
+/* function for escaping/sanitising input before making sql query in database */
+function escapeString($string)
 {
 	global $connection;
 	return mysqli_real_escape_string($connection, $string);
 }
 
-function fetch_obj($result)
-{
-	return mysqli_fetch_object($result);
-}
-
-function fetch_array($result) //assoc
+/* function for fetching mysql result as an associative array */
+function fetchArray($result)
 {
 	return mysqli_fetch_assoc($result);
 }
 
 
 /****************FRONT END FUNCTIONS*********************************/
-//dynamic menu
-function custom_dyn_menu($category, $parent = 0)
+/* function for dynamic category menu for top navbar */
+function dynamicMenu($category, $parent = 0)
 {	
 	$html = "";
 	$url = $_SERVER['REQUEST_URI'];
@@ -108,7 +102,7 @@ function custom_dyn_menu($category, $parent = 0)
 			} else {
 				$html .= "<li class='has-children $activeClass'><a href='$href'>". $category['categories'][$cat_id]['label'] . "</a>";
 				$html .= "<ul class='dropdown'>";
-				$html .= custom_dyn_menu($category, $cat_id);
+				$html .= dynamicMenu($category, $cat_id);
 				$html .= "</ul></li>";
 			}
 		}
@@ -116,20 +110,19 @@ function custom_dyn_menu($category, $parent = 0)
 	return $html;
 }
 
-//get products
+/* function for getting products and apply filters if any */
 function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10, $where = '')
 {
 	$qStr = "SELECT * FROM products";
 	if (!$admin) {
 		$qStr .= " $where ORDER BY $orderBy $orderDir LIMIT $offset, $recordsPerPage";
-		// echo $qStr;
 	}
 	$res = query($qStr);
 	confirm($res);
 	if ($admin == true) {
 		return $res;
 	}
-	while ($row = fetch_array($res)) {
+	while ($row = fetchArray($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border full-tile">
                   <figure class="block-4-image">
@@ -147,16 +140,16 @@ function getProducts($admin = false, $orderBy = 'created', $orderDir = 'DESC', $
 	}
 }
 
-//get products
+/* function for searching products */
 function searchProducts($searchTerm)
 {
-	$searchTerm = filter_var($searchTerm, FILTER_SANITIZE_STRING);
+	$searchTerm = escapeString($searchTerm);
 	$res = query("SELECT * FROM products WHERE product_title LIKE '%$searchTerm%' OR product_short_desc LIKE '%$searchTerm%'");
 	confirm($res);
 	$rowcount = mysqli_num_rows($res);
 	echo "<div class='col-sm-12'><p>$rowcount result(s) found for search: <strong>$searchTerm</strong></p></div>";
 	if ($rowcount > 0) {
-		while ($row = fetch_array($res)) {
+		while ($row = fetchArray($res)) {
 			$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
 									<div class="block-4 text-center border">
 										<figure class="block-4-image">
@@ -175,6 +168,7 @@ function searchProducts($searchTerm)
 	}
 }
 
+/* function for fetching categories */
 function getCategories($admin = false, $parentId = 0)
 {
 	$sql = "SELECT * FROM categories";
@@ -186,6 +180,7 @@ function getCategories($admin = false, $parentId = 0)
 	return $cats;
 }
 
+/* function for fetching featured products */
 function getFeaturedProducts()
 {
 	$sql = "SELECT * FROM products";
@@ -196,25 +191,7 @@ function getFeaturedProducts()
 	return $featuredProds;
 }
 
-function updateProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
-{
-	$pId = escape_string($_GET['id']);
-	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname', is_featured=$isFeatured WHERE product_id=".$pId);
-	confirm($product);
-}
-
-function updateCat($title, $parentCat)
-{
-	$cat = query("UPDATE categories SET label='$title', parent_id=$parentCat WHERE id=".escape_string($_GET['id']));
-	confirm($cat);
-}
-
-function updateStockById($qty)
-{
-	$stock = query("UPDATE inventory SET quantity='$qty' WHERE id=".escape_string($_GET['id']));
-	confirm($stock);
-}
-
+/* function for getting all sizes of a product by its id from database */
 function getProdSizesById($pId)
 {
 	$sizes = query("SELECT * FROM inventory WHERE product_id=$pId");
@@ -222,6 +199,7 @@ function getProdSizesById($pId)
 	return $sizes;
 }
 
+/* function for getting full size names from size codes */
 function getSize($scode)
 {
 	switch ($scode) {
@@ -241,63 +219,32 @@ function getSize($scode)
 	}
 }
 
-function addProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
-{
-	$product = query("INSERT INTO products (product_title, product_price, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");
-	confirm($product);
-	$pId = getLastInsertedId($product);
-	$sizeArr = ['sm', 'md', 'lg', 'xl'];
-	$vQuery = [];
-	foreach ($sizeArr as $size) {
-		$vQuery[] = " ('$pId', '$size', '100')";
-	}
-	$vQuery = implode(", ", $vQuery);
-	$order = query("INSERT INTO inventory (product_id, product_size, quantity) VALUES $vQuery");
-	confirm($order);
-	return $pId;
-}
-
-function addCat($title, $parentCat)
-{
-	$cat = query("INSERT INTO categories (label, parent_id) VALUES ('$title', $parentCat)");
-	confirm($cat);
-}
-
+/* function for getting a product by id from database */
 function getProductById($id)
 {
-	$product = query("SELECT * FROM products WHERE product_id=".escape_string($id));
+	$product = query("SELECT * FROM products WHERE product_id=".escapeString($id));
 	confirm($product);
-	$row = fetch_array($product);
+	$row = fetchArray($product);
 	return $row;
 }
 
+/* function for getting a category by id from database */
 function getCatById($id)
 {
-	$cat = query("SELECT * FROM categories WHERE id=".escape_string($id));
+	$cat = query("SELECT * FROM categories WHERE id=".escapeString($id));
 	confirm($cat);
-	$row = fetch_array($cat);
+	$row = fetchArray($cat);
 	return $row;
 }
 
-function deleteProductById($id)
-{
-	$product = query("DELETE FROM products WHERE product_id=".escape_string($id));
-	confirm($product);
-}
-
-function deleteCatById($id)
-{
-	$cat = query("DELETE FROM categories WHERE id=".escape_string($id));
-	confirm($cat);
-}
-
+/* function for getting all products in a category from database */
 function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0, $recordsPerPage = 10, $filter = '')
 {
-	$catId = escape_string($_GET['id']);
+	$catId = escapeString($_GET['id']);
 	$orCond = "";
 	$res = query("SELECT id from categories WHERE parent_id = $catId");
 	confirm($res);
-	while($childId = fetch_array($res)['id']) {
+	while($childId = fetchArray($res)['id']) {
 		$orCond .= "OR product_category_id=$childId ";
 	}
 	$qStr = "SELECT * FROM products WHERE (product_category_id=".$catId." $orCond)" .$filter;
@@ -305,7 +252,7 @@ function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0
 	$res = query($qStr);
 	
 	confirm($res);
-	while ($row = fetch_array($res)) {
+	while ($row = fetchArray($res)) {
 		$product = '<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border full-tile">
                   <figure class="block-4-image">
@@ -323,12 +270,9 @@ function getProductsInCat( $orderBy = 'created', $orderDir = 'DESC', $offset = 0
 	}
 }
 
-//categories for nav
-function get_cat_for_nav()
+/* function for getting categories for navbar from database */
+function catsForNav()
 {
-	// $parent_menu = array();
-	// $sub_menu = array();
-
 	$query = "SELECT * FROM categories ORDER BY parent_id, label ASC";
 	$send_query = query($query);
 	confirm($send_query);
@@ -348,10 +292,10 @@ function get_cat_for_nav()
 	return $category;
 }
 
-//sidebar with cats
-function site_dyn_cats()
+/* function for getting categories for sidebar from database */
+function siteDynCats()
 {
-	$category = get_cat_for_nav();
+	$category = catsForNav();
 	$parent_array = $category['categories'];
 	foreach ($parent_array as $pval) {
 	$pCount = getCount('products', $pval['id']);
@@ -360,12 +304,13 @@ function site_dyn_cats()
 	}
 }
 
+/* function for getting a count of rows from table with filters if any from database */
 function getCount($tablename, $catId)
 {
 	$orCond = "";
 	$res = query("SELECT id from categories WHERE parent_id = $catId");
 	confirm($res);
-	while($childId = fetch_array($res)['id']) {
+	while($childId = fetchArray($res)['id']) {
 		$orCond .= "OR product_category_id=$childId ";
 	}
 	$qstr = "SELECT COUNT(*) FROM $tablename";
@@ -375,13 +320,11 @@ function getCount($tablename, $catId)
 	return mysqli_fetch_array($query)[0];
 }
 
-function send_message()
+/* function for sending a mail to admin email for contact us page */
+function sendMessage()
 {
 	
 	if (isset($_POST['submit'])) {
-		/*echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';*/
 		$to = "anandkashyap60@gmail.com";
 		$name = $_POST['c_fname']." ".$_POST['c_lname'];
 		$email = $_POST['c_email'];
@@ -395,25 +338,10 @@ function send_message()
 		} else {
 			echo "SENT";
 		}
-		// redirect('contact.php');
-				
-		/*$username = escape_string($_POST['username']);
-		$userpass = escape_string($_POST['userpass']);
-		// die($username);
-		$query = query("SELECT * FROM users WHERE user_name='{$username}' AND password='{$userpass}'");
-		confirm($query);
-		if (mysqli_num_rows($query) == 0) {
-			set_message('username/password combination does not exist');
-		} else {
-			// $username = strtolower($username);
-			// $username = ucfirst($username);
-			set_message("Welcome to admin panel {$username}");
-			redirect('admin');
-		}*/
-		
 	}
 }
 
+/* function for placing an order of products */
 function addOrder($productIds, $pMethod)
 {
 	$cust_id = getLoggedInUser()['user_id'];
@@ -422,7 +350,7 @@ function addOrder($productIds, $pMethod)
 		$valQuery[]= " ($cust_id, {$pId['id']}, {$pId['qty']}, '{$pId['size']}', '$pMethod')";
 		$curQty = query("SELECT id, quantity FROM inventory WHERE product_id={$pId['id']} AND product_size='{$pId['size']}'");
 		confirm($curQty);
-		$resInv = fetch_array($curQty);
+		$resInv = fetchArray($curQty);
 		$upQty = (int)$resInv['quantity'] - (int)$pId['qty'];
 		$res = query("UPDATE inventory SET quantity=$upQty WHERE id=".$resInv['id']);
 		confirm($res);
@@ -431,6 +359,7 @@ function addOrder($productIds, $pMethod)
 	confirm($order);
 }
 
+/* function for getting list of my orders */
 function getMyOrders()
 {
 	$cust_id = getLoggedInUser()['user_id'];
@@ -439,9 +368,62 @@ function getMyOrders()
 	return $orders;
 }
 
+/* function for pagination */
+function paginatedResults($tableName, $recordsPerPage = 10, $idColName = '')
+{
+	if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+		$pno = $_GET['page'];
+	} else {
+		$pno = 1;
+	}
+	$offset = ($pno-1) * $recordsPerPage; 
+	$total_pages_sql = "SELECT COUNT(*) FROM $tableName";
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+		$total_pages_sql .= " WHERE $idColName=".escapeString($_GET['id']);
+	}
+	$result = query($total_pages_sql);
+	confirm($result);
+	$total_rows = mysqli_fetch_array($result)[0];
+	$totalPages = ceil($total_rows / $recordsPerPage);
+	return ['pageNo' => $pno, 'offset' => $offset, 'recordsPerPage' => $recordsPerPage, 'totalPages' => $totalPages];
+}
+
+/* function for setting current page number in pagination */
+function setPageNum($page)
+{
+	$queryStr = $_SERVER['QUERY_STRING'];
+	parse_str($queryStr, $vars);
+	$vars['page'] = $page;
+	return http_build_query($vars);
+}
+
+/* function for sorting products based on different values */
+function sortProds()
+{
+	$orderBy = 'created'; $orderDir = 'DESC'; $sorted = 'Latest';
+	if (isset($_GET['name'])) {
+		$orderBy = 'product_title'; $orderDir = escapeString($_GET['name']);
+		$sorted = 'Name, ';
+		if (strtolower($_GET['name']) == 'asc') {
+			$sorted .= 'A to Z';
+		} elseif (strtolower($_GET['name']) == 'desc') {
+			$sorted .= 'Z to A';
+		}
+	} elseif (isset($_GET['price'])) {
+		$orderBy = 'product_price'; $orderDir = escapeString($_GET['price']);
+		$sorted = 'Price, ';
+		if (strtolower($_GET['price']) == 'asc') {
+			$sorted .= 'low to high';
+		} elseif (strtolower($_GET['price']) == 'desc') {
+			$sorted .= 'high to low';
+		}
+	}
+	return ['orderBy' => $orderBy, 'orderDir' => $orderDir, 'sorted' => $sorted];
+}
+
 /****************BACK END FUNCTIONS*********************************/
-//dynamic menu
-function dyn_menu_admin($category, $parent = 0)
+/* create dynamic menu for admin */
+function dynMenuAdmin($category, $parent = 0)
 {	
 	$html = "";
 	if (isset($category['parent_cats'][$parent])) {
@@ -453,7 +435,7 @@ function dyn_menu_admin($category, $parent = 0)
 			} else {
 				$html .= "<li class='has-children' >". $category['categories'][$cat_id]['label'] . " <a href='$href' class='label label-success label-rounded'>Edit</a> <a href='$dhref' class='label label-danger label-rounded'>Delete</a>";
 				$html .= "<ul class='dropdown'>";
-				$html .= dyn_menu_admin($category, $cat_id);
+				$html .= dynMenuAdmin($category, $cat_id);
 				$html .= "</ul></li>";
 			}
 		}
@@ -461,6 +443,68 @@ function dyn_menu_admin($category, $parent = 0)
 	return $html;
 }
 
+/* function for adding a new product in database */
+function addProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
+{
+	$product = query("INSERT INTO products (product_title, product_price, product_short_desc, product_description, product_category_id, product_image, is_featured) VALUES ('$title', $price, '$shortDesc', '$desc', $cat, '$fname', $isFeatured)");
+	confirm($product);
+	$pId = getLastInsertedId($product);
+	$sizeArr = ['sm', 'md', 'lg', 'xl'];
+	$vQuery = [];
+	foreach ($sizeArr as $size) {
+		$vQuery[] = " ('$pId', '$size', '100')";
+	}
+	$vQuery = implode(", ", $vQuery);
+	$order = query("INSERT INTO inventory (product_id, product_size, quantity) VALUES $vQuery");
+	confirm($order);
+	return $pId;
+}
+
+/* function for adding a new category in database */
+function addCat($title, $parentCat)
+{
+	$cat = query("INSERT INTO categories (label, parent_id) VALUES ('$title', $parentCat)");
+	confirm($cat);
+}
+
+/* function for updating a product in database */
+function updateProduct($title, $price, $shortDesc, $desc, $cat, $fname, $isFeatured)
+{
+	$pId = escapeString($_GET['id']);
+	$product = query("UPDATE products SET product_title='$title', product_price=$price, product_short_desc='$shortDesc', product_description='$desc', product_category_id=$cat, product_image='$fname', is_featured=$isFeatured WHERE product_id=".$pId);
+	confirm($product);
+}
+
+/* function for updating a category in database */
+function updateCat($title, $parentCat)
+{
+	$cat = query("UPDATE categories SET label='$title', parent_id=$parentCat WHERE id=".escapeString($_GET['id']));
+	confirm($cat);
+}
+
+/* function for updating a stock/inventory in database */
+function updateStockById($qty)
+{
+	$stock = query("UPDATE inventory SET quantity='$qty' WHERE id=".escapeString($_GET['id']));
+	confirm($stock);
+}
+
+
+/* function for deleting a product by id from database */
+function deleteProductById($id)
+{
+	$product = query("DELETE FROM products WHERE product_id=".escapeString($id));
+	confirm($product);
+}
+
+/* function for deleting a category by id from database */
+function deleteCatById($id)
+{
+	$cat = query("DELETE FROM categories WHERE id=".escapeString($id));
+	confirm($cat);
+}
+
+/* function for getting all orders of all customers from database */
 function getAllOrders($from = '', $to = '')
 {
 	$qstr = "SELECT ord.order_id, ord.size, prod.product_id, ord.cust_id, prod.product_title, prod.product_image, prod.product_price, ord.quantity, ord.order_date, ord.payment_method, users.name FROM customer_order AS ord JOIN users ON ord.cust_id=users.user_id JOIN products AS prod ON ord.product_id=prod.product_id";
@@ -475,6 +519,7 @@ function getAllOrders($from = '', $to = '')
 	return $orders;
 }
 
+/* function for getting all customers from database */
 function getCustomers()
 {
 	$res = query("SELECT user_id, email, name, phone, country FROM users WHERE role='user'");
@@ -482,6 +527,7 @@ function getCustomers()
 	return $res;
 }
 
+/* function for getting all inventory for products from database */
 function getStock()
 {
 	$res = query("SELECT inv.*, pr.product_title, pr.product_image FROM inventory AS inv JOIN products AS pr ON inv.product_id = pr.product_id");
@@ -489,87 +535,78 @@ function getStock()
 	return $res;
 }
 
+/* function for deleting a customer from database */
 function deleteCustById($id)
 {
-	$cust = query("DELETE FROM users WHERE user_id=".escape_string($id));
+	$cust = query("DELETE FROM users WHERE user_id=".escapeString($id));
 	confirm($cust);
 }
 
+/* function for getting a customer from database */
 function getCustById($id)
 {
-	$cust = query("SELECT user_name, email, name, company, phone, address, country FROM users WHERE user_id=".escape_string($id));
+	$cust = query("SELECT user_name, email, name, company, phone, address, country FROM users WHERE user_id=".escapeString($id));
 	confirm($cust);
-	$row = fetch_array($cust);
+	$row = fetchArray($cust);
 	return $row;
 }
 
+/* function for getting a product's stock from database */
 function getStockById($id)
 {
-	$stock = query("SELECT inv.*, pr.product_title, pr.product_image FROM inventory AS inv JOIN products AS pr ON inv.product_id = pr.product_id WHERE inv.id=".escape_string($id));
+	$stock = query("SELECT inv.*, pr.product_title, pr.product_image FROM inventory AS inv JOIN products AS pr ON inv.product_id = pr.product_id WHERE inv.id=".escapeString($id));
 	confirm($stock);
-	$row = fetch_array($stock);
+	$row = fetchArray($stock);
 	return $row;
 }
 
+/* function for updating a customer in database */
 function updateCust($cData)
 {
-	$cat = query("UPDATE users SET user_name='".$cData['user_name']."', email='".$cData['email']."', name='".$cData['name']."', company='".$cData['company']."', phone='".$cData['phone']."', address='".$cData['address']."', country='".$cData['country']."' WHERE user_id=".escape_string($_GET['id']));
+	$cat = query("UPDATE users SET user_name='".$cData['user_name']."', email='".$cData['email']."', name='".$cData['name']."', company='".$cData['company']."', phone='".$cData['phone']."', address='".$cData['address']."', country='".$cData['country']."' WHERE user_id=".escapeString($_GET['id']));
 	confirm($cat);
 }
 
+/* function for adding a customer in database */
 function addCust($cData)
 {
 	$product = query("INSERT INTO users (user_name, email, name, company, phone, address, country) VALUES "."('".implode("', '", $cData)."')");
 	confirm($product);
 }
 
-function paginatedResults($tableName, $recordsPerPage = 10, $idColName = '')
-{
-	if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-		$pno = $_GET['page'];
-	} else {
-		$pno = 1;
+/* get payment sticker color */
+function getRoundedLabel($payStr) {
+	switch ($payStr) {
+		case $payStr == 'paypal':
+			return 'label-purple';
+			break;
+		case $payStr == 'direct bank transfer':
+			return 'label-info';
+			break;
+		case $payStr == 'cash on delivery':
+			return 'label-success';
+			break;
+		
+		default:
+			return 'label-danger';
+			break;
 	}
-	$offset = ($pno-1) * $recordsPerPage; 
-	$total_pages_sql = "SELECT COUNT(*) FROM $tableName";
-	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-		$total_pages_sql .= " WHERE $idColName=".escape_string($_GET['id']);
-	}
-	$result = query($total_pages_sql);
-	confirm($result);
-	$total_rows = mysqli_fetch_array($result)[0];
-	$totalPages = ceil($total_rows / $recordsPerPage);
-	return ['pageNo' => $pno, 'offset' => $offset, 'recordsPerPage' => $recordsPerPage, 'totalPages' => $totalPages];
 }
 
-function setPageNum($page)
+/* get total sales of store */
+function getTotalSales()
 {
-	$queryStr = $_SERVER['QUERY_STRING'];
-	parse_str($queryStr, $vars);
-	$vars['page'] = $page;
-	return http_build_query($vars);
+	$sales = query("SELECT SUM(ROUND(ord.quantity*prod.product_price, 2)) AS amount FROM customer_order AS ord JOIN products AS prod ON ord.product_id=prod.product_id");
+	confirm($sales);
+	return fetchArray($sales)['amount'];
 }
 
-function sortProds()
+/* get latest sales of store */
+function getLatestSales()
 {
-	$orderBy = 'created'; $orderDir = 'DESC'; $sorted = 'Latest';
-	if (isset($_GET['name'])) {
-		$orderBy = 'product_title'; $orderDir = escape_string($_GET['name']);
-		$sorted = 'Name, ';
-		if (strtolower($_GET['name']) == 'asc') {
-			$sorted .= 'A to Z';
-		} elseif (strtolower($_GET['name']) == 'desc') {
-			$sorted .= 'Z to A';
-		}
-	} elseif (isset($_GET['price'])) {
-		$orderBy = 'product_price'; $orderDir = escape_string($_GET['price']);
-		$sorted = 'Price, ';
-		if (strtolower($_GET['price']) == 'asc') {
-			$sorted .= 'low to high';
-		} elseif (strtolower($_GET['price']) == 'desc') {
-			$sorted .= 'high to low';
-		}
-	}
-	return ['orderBy' => $orderBy, 'orderDir' => $orderDir, 'sorted' => $sorted];
+	$res = query("SELECT ROUND(ord.quantity*prod.product_price, 2) AS price, ord.payment_method AS payment, prod.product_title AS name, ord.order_date AS date FROM customer_order AS ord JOIN products AS prod ON ord.product_id=prod.product_id ORDER BY date desc");
+	confirm($res);
+	return $res;
 }
+
 ?>

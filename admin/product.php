@@ -91,7 +91,7 @@ $cats = getCategories();
                         <label>Category (<span class="text-danger">*</span>)</label>
                         <select name="category" class="form-control">
                             <?php
-                            while ($cat = fetch_array($cats)) {
+                            while ($cat = fetchArray($cats)) {
                                 $sel = $edit && $cat['id'] == $row['product_category_id'] ? "selected" : "";
                                 echo "<option $sel value='" . $cat['id'] . "'>" . $cat['label'] . "</option>";
                             }

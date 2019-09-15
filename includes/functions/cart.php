@@ -1,12 +1,11 @@
 <?php
+/* function for adding product to session cart */
 function addToCart()
 {
-  // unset($_SESSION['cart']);
   $newProductId = $_POST['addByajax'];
   $size = $_POST['size'];
   $qty = $_POST['qty'];
   if (isset($_SESSION['cart'])) {
-    // print_r($_SESSION['cart']);
     if (isset($_SESSION['cart'][$newProductId])) {
       if (isset($_SESSION['cart'][$newProductId][$size])) { //size present
         $sQty = (int)$_SESSION['cart'][$newProductId][$size] + $qty;
@@ -22,6 +21,7 @@ function addToCart()
   return getProdCount();
 } 
 
+/* function for getting number of products in cart */
 function getProdCount()
 {
   $arr = $_SESSION['cart'];
@@ -31,29 +31,12 @@ function getProdCount()
   }
   return $count;
 }
-/* function addToCart($ajax = false)
-{
-  $key = $ajax ? 'addByajax': 'add';
-  // unset($_SESSION['cart']);
-  if (isset($_GET[$key])) {
-    $newProductId = escape_string($_GET[$key]);
-    if (isset($_SESSION['cart'])) {
-      array_push($_SESSION['cart'], $newProductId);
-    } else {
-      $_SESSION['cart'] = [$newProductId];
-    }
-    if (!$ajax) {
-      header('Location: cart.php');
-    } else {
-      return count($_SESSION['cart']);
-    }
-  }
-} */
 
+/* function for removing product from cart */
 function removeFromCart()
 {
   if (isset($_GET['remove'])) {
-    $remProductId = escape_string($_GET['remove']);
+    $remProductId = escapeString($_GET['remove']);
     if (isset($_SESSION['cart'])) {
       $index = array_search($remProductId, $_SESSION['cart']);
       array_splice($_SESSION['cart'], $index, 1);
@@ -62,10 +45,9 @@ function removeFromCart()
   }
 }
 
+/* function for getting product from cart */
 function getCartProductsDetail() {
-  // unset($_SESSION['cart']);
   if (isset($_SESSION['cart'])) {
-    
     $prodIds = $_SESSION['cart'];
     $whereCondArr = [];
     foreach ($prodIds as $prodId => $sizeQty) {
@@ -74,9 +56,8 @@ function getCartProductsDetail() {
     if (count($whereCondArr) > 0) {
       $product = query("SELECT * FROM products WHERE ". join(" OR ", $whereCondArr));
       confirm($product);
-      // print_r(fetch_array($product)); die;
       $cartProds = [];
-      while ($row = fetch_array($product)) {
+      while ($row = fetchArray($product)) {
         $prodArr = $_SESSION['cart'][$row['product_id']];
         foreach ($prodArr as $size => $qty) {
           $cartProds[] = [

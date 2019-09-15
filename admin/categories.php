@@ -39,7 +39,7 @@
                         <tbody>
                           <?php 
                           $cats = getCategories(true);
-                          while ($row = fetch_array($cats)) {
+                          while ($row = fetchArray($cats)) {
                           ?>
                           <tr>
                             <td><?php echo $row['id']; ?></td>
