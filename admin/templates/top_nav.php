@@ -1,6 +1,3 @@
-<!-- ============================================================== -->
-<!-- Topbar header - style you can find in pages.scss -->
-<!-- ============================================================== -->
 <header class="topbar" data-navbarbg="skin6">
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <div class="navbar-header" data-logobg="skin5">
@@ -35,42 +32,17 @@
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
             <ul class="navbar-nav float-left mr-auto">
-                <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
-                <!-- <li class="nav-item search-box">
-                    <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
-                        <div class="d-flex align-items-center">
-                            <i class="mdi mdi-magnify font-20 mr-1"></i>
-                            <div class="ml-1 d-none d-sm-block">
-                                <span>Search</span>
-                            </div>
-                        </div>
-                    </a>
-                    <form class="app-search position-absolute">
-                        <input type="text" class="form-control" placeholder="Search &amp; enter">
-                        <a class="srh-btn">
-                            <i class="ti-close"></i>
-                        </a>
-                    </form>
-                </li> -->
             </ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
             <ul class="navbar-nav float-right">
-                <!-- ============================================================== -->
-                <!-- User profile and search -->
-                <!-- ============================================================== -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-user m-r-5 m-l-5"></i> Admin</a>
                     <div class="dropdown-menu dropdown-menu-right animated">
                         <a class=" text-danger dropdown-item" href="../logout.php"><i class="mdi mdi-exit-to-app m-r-5 m-l-5"></i> Logout</a>
                     </div>
                 </li>
-                <!-- ============================================================== -->
-                <!-- User profile and search -->
-                <!-- ============================================================== -->
             </ul>
         </div>
     </nav>

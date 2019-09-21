@@ -6,10 +6,8 @@
 $edit = false;
 $pTitle = 'Add';
 if (isset($_POST['submit'])) {
-    // redirect('product.php?id='.$_POST['pId']); die();
     $title = $_POST['title'];
     $price = $_POST['price'];
-    // $qty = $_POST['qty'];
     $isFeatured = $_POST['is_featured'];
     $shortDesc = $_POST['shortdesc'];
     $desc = $_POST['desc'];
@@ -44,9 +42,6 @@ if (isset($_GET['delete'])) {
 $cats = getCategories();
 ?>
 <div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Start Page Content -->
-    <!-- ============================================================== -->
     <div class="row">
         <div class="col-12">
             <div class="card card-body">
@@ -60,10 +55,6 @@ $cats = getCategories();
                         <label>Price ($) (<span class="text-danger">*</span>)</label>
                         <input type="number" name="price" placeholder="e.g. 13.50" class="form-control" value="<?php echo $edit ? $row['product_price'] : 0; ?>">
                     </div>
-                    <!-- <div class="form-group">
-                        <label>Quantity (<span class="text-danger">*</span>)</label>
-                        <input type="number" name="qty" placeholder="e.g. 45" class="form-control" value="<?php //echo $edit ? $row['product_quantity'] : 0; ?>">
-                    </div> -->
                     <div class="form-group">
                         <label>Featured Product</label>
                         <select name="is_featured" class="form-control is-featured">
@@ -105,16 +96,6 @@ $cats = getCategories();
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Right sidebar -->
-    <!-- ============================================================== -->
-    <!-- .right-sidebar -->
-    <!-- ============================================================== -->
-    <!-- End Right sidebar -->
-    <!-- ============================================================== -->
 </div>
 <script src="dist/js/jquery.validate.min.js"></script>
 <script src="dist/js/product.js"></script>

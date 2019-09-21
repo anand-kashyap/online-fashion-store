@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Sep 10, 2019 at 09:08 AM
+-- Generation Time: Sep 15, 2019 at 03:28 PM
 -- Server version: 5.7.21
 -- PHP Version: 7.1.19
 
@@ -102,7 +102,8 @@ INSERT INTO `customer_order` (`order_id`, `cust_id`, `product_id`, `quantity`, `
 (5, 2, 2, 1, 'xl', '2019-09-02 16:33:19', 'paypal'),
 (9, 1, 21, 5, 'md', '2019-09-08 11:46:46', 'direct bank transfer'),
 (10, 1, 21, 1, 'sm', '2019-09-08 11:46:46', 'direct bank transfer'),
-(11, 1, 16, 2, 'sm', '2019-09-08 12:10:25', 'direct bank transfer');
+(11, 1, 16, 2, 'sm', '2019-09-08 12:10:25', 'direct bank transfer'),
+(12, 1, 21, 1, 'xl', '2019-09-15 12:17:49', 'cash on delivery');
 
 -- --------------------------------------------------------
 
@@ -188,7 +189,7 @@ INSERT INTO `inventory` (`id`, `product_id`, `product_size`, `quantity`) VALUES
 (53, 21, 'sm', 100),
 (54, 21, 'md', 100),
 (55, 21, 'lg', 100),
-(56, 21, 'xl', 100);
+(56, 21, 'xl', 99);
 
 -- --------------------------------------------------------
 
@@ -302,7 +303,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role`, `user_name`, `email`, `password`, `name`, `company`, `phone`, `address`, `country`) VALUES
-(1, 'admin', 'ivan', 'ivan-cheklov@gmail.com', '1234', 'Ivan Cheklov', 'ABC', '9871233211', 'B-23, janakpuri', 'india'),
+(1, 'admin', 'anand', 'anand123@gmail.com', '1234', 'Anand Kashyap', 'ABC', '9871233211', 'B-23, janakpuri', 'india'),
 (2, 'user', 'filip', 'filip@outlook.com', 'filip234', 'Filip Skalka', 'DEF', '5765432113', '16192 Coastal Highway\r\nLewes 19958\r\nDelaware, USA', 'usa');
 
 --
@@ -404,7 +405,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `customer_order`
 --
 ALTER TABLE `customer_order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `department`

@@ -1,13 +1,6 @@
 <?php require_once './templates/header.php'; ?>
 <?php require_once './templates/top_nav.php'; ?>
 <?php require_once './templates/left_sidebar.php'; ?>
-<?php //require_once './templates/breadcrumb.php'; 
-?>
-
-
-<!-- ============================================================== -->
-<!-- Container fluid  -->
-<!-- ============================================================== -->
 <div class="container-fluid">
   <!-- ============================================================== -->
   <!-- Stock List -->
@@ -40,7 +33,6 @@
               <?php
               $stock = getStock();
               while ($row = fetchArray($stock)) {
-                // print_r($row); die;
                 ?>
                 <tr>
                   <td><h5><?php echo $row['id'] ?></h5></td>
@@ -63,6 +55,4 @@
     </div>
   </div>
 </div>
-<!-- ============================================================== -->
-<!-- End Container fluid  -->
 <?php require_once './templates/footer.php'; ?>
